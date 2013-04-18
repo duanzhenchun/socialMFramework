@@ -24,9 +24,13 @@
 	$_acl_models_data_allowed = array(
 		'User' => array(
 			'guest' => array(
-				'first_name'		=> 'attr',
-				'last_name'			=> 'attr',
-				'picture'			=> 'getPictureUrl',
+				'first_name'			=> 'attr',
+				'last_name'				=> 'attr',
+				'picture'				=> 'getPictureUrl',
+				'shares_counter'		=> 'counter::Share',
+				'favorites_counter'		=> 'counter::Favorite',
+				'followers_counter'		=> 'counter::Follower::user2',
+				'followings_counter'	=> 'counter::Follower::user1',
 			),
 			'user' => array(
 				'facebook_id'		=> 'attr',
