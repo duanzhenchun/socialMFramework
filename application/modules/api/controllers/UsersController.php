@@ -35,4 +35,25 @@ class Api_UsersController extends MF_Controller{
 		$this->renderJSON( $response );
 	}
 	
+	public function registerAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams(); // TODO change to POST !!!!
+		$response = MF_ApiCaller::call('User', 'register', $args);
+		$this->renderJSON( $response );
+	}
+	
+	public function getDataAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$response = MF_ApiCaller::call('User', 'getData', $args);
+		$this->renderJSON( $response );
+	}
+	
+	public function followAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$response = MF_ApiCaller::call('User', 'follow', $args);
+		$this->renderJSON( $response );
+	}
+	
 }

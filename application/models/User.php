@@ -14,6 +14,13 @@ class User extends MF_Model{
 		$this->action_trigger = new UserTrigger( $this );
 	}
 	
+	public function isProfileComplete(){
+		if( isset($this->password) && $this->password ){
+			return 1;
+		}
+		return 0;
+	}
+	
 	public function getFeeds( $from_id=false, $to_id=false, $limit=20 ){
 		$sql_condition = "WHERE ((`f`.`users_id`={$this->id})";
 		$following = $this->getFollowings();
@@ -103,20 +110,20 @@ class User extends MF_Model{
 	}
 	
 	public function getUnreadNotifications(){
-		$sql = "SELECT * FROM `notifications` WHERE `users_id`={$this->id} AND `push_status`='{Notification::STATUS_PENDING}'";
+		$sql = "SELECT * FROM `notifications` WHERE `users_id`={$this->id} AND `push_status`='".Notification::STATUS_PENDING."'";
 		return MF_Model::glob( 'Notification', $sql );
 	}
 	
 	public function isCurrentUserFollowing(){
 		$auth = MF_Auth::getInstance();
 		if( $auth->isLogged() ){
-			if( $auth->user == $this->id ){
+			if( $auth->user->id == $this->id ){
 				return "own";
 			}
 			if( $auth->user->getFollowing( $this ) ){
-				return '1';
+				return 1;
 			}
-			return '1';
+			return 0;
 		}
 		return 'no-logged';
 	}

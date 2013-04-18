@@ -4,7 +4,7 @@ class Feed extends MF_Model{
 	protected $reference_models = array(
 		"FeedType" => array(
 			"column" => "feed_types_id",
-			"refModel" => "NotificationType",
+			"refModel" => "FeedType",
 			"refColumn" => "id",
 		),
 		"User" => array(
@@ -17,6 +17,53 @@ class Feed extends MF_Model{
 	public function __construct(){
 		parent::__construct('feeds');
 		$this->action_trigger = new FeedTrigger( $this );
+	}
+	
+	public function getText(){
+		$auth = MF_Auth::getInstance();
+		if( $auth->isLogged() && $this->users_id==$auth->user->id ){
+			return $this->parceOwnText();
+		}
+		return $this->parceOtherText();
+	}
+	
+	public function parseText( $text ){
+		$data = json_decode( $this->serialized_data );
+		foreach( $data as $k => $d ){
+			if( is_string($d) ){
+				$t = $d;
+			}else{
+				$t = $d->text;
+				$cont = "<span data-type=\"$k\"";
+				$object_vars = get_object_vars( $d );
+				foreach( $object_vars as $ko => $ov ){
+					if( $ko != 'text' ){
+						$cont .= " data-$ko=\"$ov\"";
+					}
+				}
+				$cont .= '>';
+				$t = $cont.$t.'</span>';
+			}
+			$text = str_replace( "%{$k}%", $t, $text);
+		}
+		$strpos = strpos( $text, "#user_fullname#");
+		if( $strpos !== false ){
+			$user = $this->getParent( 'User' );
+			$cont = "<span data-type=\"user\" data-id=\"{$user->id}\">".$user->getFullName().'</span>';
+			$user_name = $cont;
+			$text = str_replace( "#user_fullname#", $user_name, $text);
+		}
+		return $text;
+	}
+	
+	protected function parceOwnText(){
+		$type = $this->getParent( 'FeedType' );
+		return $this->parseText( $type->own_text );
+	}
+	
+	protected function parceOtherText(){
+		$type = $this->getParent( 'FeedType' );
+		return $this->parseText( $type->other_text );
 	}
 	
 	public function getThumb(){
@@ -34,5 +81,4 @@ class Feed extends MF_Model{
 			return $user->getPictureUrl();
 		}
 	}
-	
 }

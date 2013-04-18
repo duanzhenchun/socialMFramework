@@ -12,27 +12,26 @@ class MF_MailSender{
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 		
 		// Cabeceras adicionales
-		if( get_class( $to ) == 'User' ){
-			$headers .= 'To: '.$to->name.' <'.$to->email.'>' . "\r\n";
-			$to_mail = $to->email;
-		}else{
+		if( is_string( $to ) ){
 			$headers .= 'To: <'.$to.'>' . "\r\n";
 			$to_mail = $to;
-		}
-		if( get_class( $from ) == 'User' ){
-			$headers .= 'From: '.$from->name.' <'.$from->email.'>' . "\r\n";
 		}else{
+			$headers .= 'To: '.$to->getFullName().' <'.$to->email.'>' . "\r\n";
+			$to_mail = $to->email;
+		}
+		if( is_string( $from ) ){
 			$headers .= 'From: <'.$from.'>' . "\r\n";
+		}else{
+			$headers .= 'From: '.$from->name.' <'.$from->email.'>' . "\r\n";
 		}
 		
 		return mail($to_mail, $subject, $this->parseContent( $vals ), $headers);
 	}
 	
 	protected function parseContent( $vals ){
-		if( file_exists($this->template_file) ){
-			$file_path = $this->template_file;
-		}elseif(file_exists(MAIL_TEMPLATES_PATH.'/'.$this->template_file)){
-			$file_path = MAIL_TEMPLATES_PATH.'/'.$this->template_file;
+		$file_path = MAIL_TEMPLATES_PATH.'/'.$this->template_file;
+		if( !file_exists($file_path) ){
+			MF_Error::dieError( "Email template $file_path not founded", 500 );
 		}
 		if( isset($file_path) ){
 			$handler = fopen($file_path, "r");
@@ -42,7 +41,7 @@ class MF_MailSender{
 				if( is_string($v) ){
 					$content = str_replace( '#{'.$k.'}', $v, $content);
 				}else{
-					$content = str_replace( '#{'.$k.'}', $v->text, $content);
+					$content = str_replace( '#{'.$k.'}', $v['text'], $content);
 				}
 			}
 			return $content;

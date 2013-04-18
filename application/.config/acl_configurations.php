@@ -16,6 +16,9 @@
 		'User::listFollowings' => array('user','admin'),
 		'User::listTimeline' => array('user','admin'),
 		'User::listFollowers' => array('user','admin'),
+		'User::register' => 'all',
+		'User::getData' => array('user','admin'),
+		'User::follow' => array('user','admin'),
 	);
 	
 	$_acl_models_data_allowed = array(
@@ -97,7 +100,7 @@
 		'Feed' => array(
 			'guest' => array(
 				'created_at'		=> 'attr',
-				'text'				=> '',
+				'text'				=> 'getText',
 				'thumb'				=> 'getThumb',
 				'type'				=> 'parent::FeedType',
 			),

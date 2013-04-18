@@ -5,6 +5,51 @@ class UserDelegate extends MF_ApiDelegate{
 		parent::__construnct();
 	}
 	
+	public function getData( $args ){
+		if( !isset($args['user']) || !$args['user'] || $args['user']=='me' ){
+			$auth = MF_Auth::getInstance();
+			$user = $auth->user;
+		}else{
+			$user = new User();
+			if( !$user->select( $args['user'] ) ){
+				$this->_api_response->setErrorCode( '1002' );
+				return;
+			}
+		}
+		$this->_api_response->setResponse( array( 'user' => $user->getArrayData( $user ) ) );
+	}
+	
+	public function follow( $args ){
+		if( !$this->validateRequiredArgs($args, array('user','follow')) ){
+			return;
+		}
+		$auth = MF_Auth::getInstance();
+		$user = new User();
+		if( !$user->select( $args['user'] ) || $auth->user->id==$user->id ){
+			$this->_api_response->setErrorCode( '1002' );
+			return;
+		}
+		if( $args['follow'] ){
+			if( $auth->user->getFollowing( $user ) ){
+				$this->_api_response->setErrorCode( '4001' );
+				return;
+			}
+			$follower = new Follower();
+			$follower->users1_id = $auth->user->id;
+			$follower->users2_id = $user->id;
+			$follower->save();
+			$this->_api_response->setResponse();
+		}else{
+			$follower = $auth->user->getFollowing( $user );
+			if( !$follower ){
+				$this->_api_response->setErrorCode( '4002' );
+				return;
+			}
+			$follower->delete();
+			$this->_api_response->setResponse();
+		}
+	}
+	
 	public function setSettings( $args ){
 		$auth = MF_Auth::getInstance();
 		foreach( $args as $key => $value ){
@@ -13,7 +58,34 @@ class UserDelegate extends MF_ApiDelegate{
 		$this->_api_response->setResponse();
 	}
 	
-	public function listTimeline(){
+	public function register( $args ){
+		if( !$this->validateRequiredArgs($args, array('email','password','confirm_password','first_name','last_name')) ){
+			return;
+		}
+		if( $args['password'] != $args['confirm_password'] ){
+			$this->_api_response->setErrorCode( 1003 );
+			return;
+		}
+		$user = new User();
+		if( $user->select( $args['email'], 'email' ) ){
+			$this->_api_response->setErrorCode( 1001 );
+			return;
+		}
+		$plain_password = $args['password'];
+		$auth = MF_Auth::getInstance();
+		$args['password'] = $auth->createHashedPassword( $args['password'] );
+		unset( $args['confirm_password'] );
+		$user->load( $args );
+		$user->save();
+		$user->select( $user->id );
+		if( $auth->impersonate( $user->email ) ){
+			$this->_api_response->setResponse( array('user'=>$user->getArrayData( $user )) );
+		}else{
+			$this->_api_response->setErrorCode( 1004 );
+		}
+	}
+	
+	public function listTimeline( $args ){
 		if( !isset($args['user']) || !$args['user'] || $args['user']=='me' ){
 			$auth = MF_Auth::getInstance();
 			$user = $auth->user;
@@ -29,8 +101,7 @@ class UserDelegate extends MF_ApiDelegate{
 		$feeds = $user->getFeeds( $from_id, $to_id );
 		$feeds_data = array();
 		foreach( $feeds as $feed ){
-			$text_acl_ov = $feed->users_id==$user->id? 'parceOwnText' : 'parceOtherText';
-			$feeds_data[] = $feed->getArrayData( null, array('text'=>$text_acl_ov) );
+			$feeds_data[] = $feed->getArrayData();
 		}
 		$this->_api_response->setResponse( array('feeds' => $feeds_data) );
 	}

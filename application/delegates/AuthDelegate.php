@@ -11,7 +11,7 @@ class AuthDelegate extends MF_ApiDelegate{
 		}
 		$auth = MF_Auth::getInstance();
 		if( $auth->login( $args['email'], $args['password'] ) ){
-			$this->_api_response->setResponse( array( 'user_data'=>$auth->user->getArrayData( $auth->user ) ) );
+			$this->_api_response->setResponse( array( 'profile_complete'=>1, 'user'=>$auth->user->getArrayData( $auth->user ) ) );
 		}else{
 			$this->_api_response->setErrorCode( '2001' );
 		}
@@ -37,11 +37,11 @@ class AuthDelegate extends MF_ApiDelegate{
 			$auth = MF_Auth::getInstance();
 			$me = $facebook->api('/me');
 			$email = $me['email'];
-			if( !$user->select( $email, 'email' ) ){
+			$save = false;
+			if( !$user->select( $email, 'email' ) || !$user->isProfileComplete() ){
 				$this->_api_response->setResponse( array( 'profile_complete'=>0 ) );
 				return;
 			}
-			$save = false;
 			if( empty( $user->first_name ) ){
 				$user->first_name = $me['first_name'];
 				$save = true;
@@ -58,7 +58,7 @@ class AuthDelegate extends MF_ApiDelegate{
 				$user->save();
 			}
 			$auth->impersonate( $user->email );
-			$response = array( 'ok'=>1, 'profile_complete'=>1, 'user_data'=>$user->getArrayData() );
+			$this->_api_response->setResponse( array( 'profile_complete'=>1, 'user'=>$auth->user->getArrayData( $auth->user ) ) );
 			return;
 		}
 		$this->_api_response->setErrorCode( '1005' );

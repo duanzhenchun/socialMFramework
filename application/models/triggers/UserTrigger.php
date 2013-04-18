@@ -6,7 +6,7 @@ class UserTrigger extends MF_ActionTriggerAbstract{
 	}
 	
 	public function beforeSave(){
-		if( $this->model->facebook_id && !$this->model->picture ){
+		if( isset($this->model->facebook_id) && $this->model->facebook_id && !$this->model->picture ){
 			$this->model->gotFacebookImage();
 		}
 	}

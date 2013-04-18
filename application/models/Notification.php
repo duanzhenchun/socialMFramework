@@ -23,7 +23,7 @@ class Notification extends MF_Model{
 	}
 	
 	public function makeReaded(){
-		$this->status = self::STATUS_READED;
+		$this->push_status = self::STATUS_READED;
 		$this->save();
 	}
 	
@@ -53,5 +53,6 @@ class Notification extends MF_Model{
 			}
 			$text = str_replace( "%{$k}%", $t, $text);
 		}
+		return $text;
 	}
 }
