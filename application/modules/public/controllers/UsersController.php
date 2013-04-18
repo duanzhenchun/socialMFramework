@@ -22,6 +22,8 @@ class UsersController extends MF_Controller{
 	public function profileAction(){
 		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
+			$args = array();
+			$user = MF_ApiCaller::call('User', 'listTimeline', $args);
 			/*$this->bridge = new UsersBridge();
 			$request = MF_Request::getInstance();
 			$user_id = $request->getParam('user_id', 'me');
