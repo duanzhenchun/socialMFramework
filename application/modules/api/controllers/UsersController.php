@@ -2,7 +2,8 @@
 class Api_UsersController extends MF_Controller{
 	
 	public function listTimelineAction(){
-		$args = array();
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
 		$response = MF_ApiCaller::call('User', 'listTimeline', $args);
 		$this->renderJSON( $response );
 	}

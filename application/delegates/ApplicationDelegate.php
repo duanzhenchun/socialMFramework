@@ -17,7 +17,7 @@ class ApplicationDelegate extends MF_ApiDelegate{
 			$app_data = Application::getGooglePlayData( $args['package_name'] );
 			$app_data['exists'] = 0;
 		}
-		$this->_api_response->setResponse( array('app_data'=>$app_data) );
+		$this->_api_response->setResponse( array('application'=>$app_data) );
 	}
 	
 	public function share( $args ){
