@@ -1,29 +1,27 @@
 <?php
-	$user = $this->response["user_data"];
-	$auth = MF_Auth::getInstance();
+	//var_dump($this->response);
+	$user = $this->response["user"];
 ?>
 <div class="profile_detail">
-	<h2><?php echo "first_name - last_name";?></h2>
-	<!-- <h2><?php echo $user["first_name"].' '.$user["last_name"];?></h2>-->
+	<h2><?php echo $user["first_name"].' '.$user["last_name"];?></h2>
 	<img src="<?php echo $user["picture"];?>" class="profile_image" />
 	<div class="my_profile_menu">
 		<li><a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'profile' )); ?>" >My TimeLine</a></li>
-		<li><a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index' )); ?>">Shared apps: <?php echo $user["apps_counter"]; ?></a></li>
-		<li><a href="javascript:void(0);" onclick="load_followers_following('followers');">followers: <?php echo $user["followers_counter"]; ?></a></li>
-		<li><a href="javascript:void(0);" onclick="load_followers_following('Followin');">following: <?php echo $user["following_counter"]; ?></a></li>
+		<li><a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index' )); ?>">Shared apps: <?php echo $user["shares_counter"]; ?></a></li>
+		<li><a href="javascript:void(0);" onclick="load_followers_following('followers');">followers: <?php echo $user["followers_counter"]  ?></a></li>
+		<li><a href="javascript:void(0);" onclick="load_followers_following('Followin');">following: <?php echo $user["followings_counter"]; ?></a></li>
 	</div>
 	<?php
-	if($user["id"] != 'me' && $user["id"] != $auth->user->id && $user["following"]=='0'){
-		echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';
-	}
-	elseif($user["id"] != 'me' && $user["id"] != $auth->user->id){
-		echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'0' )).'">unfollow</a>';
-	}
+		$follow = MF_ApiCaller::call('User', 'follow');
+		//var_dump($follow);
+		if($follow["ok"]){
+			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
+		}
 	?>
 </div>
 <div id="profile_data">
 	<h2>Time Line</h2>
 		<?php 
-		echo $this->partial( 'time_line'/*,array('response'=>$this->notification_response, 'user'=>$user)*/ );
+		echo $this->partial( 'time_line',array('response'=>$this->get_timeline_response) );
 		?>
 </div>

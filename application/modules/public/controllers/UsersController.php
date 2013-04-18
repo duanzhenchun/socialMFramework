@@ -5,32 +5,20 @@ class UsersController extends MF_Controller{
 		//$this->bridge = new UsersBridge();
 	}
 	public function indexAction(){
-		$args = array();
-		$time_line = MF_ApiCaller::call('User', 'listTimeline', $args);
-		var_dump($time_line);
-		/*$notification_bridge = new NotificationsBridge();
-		$response = $notification_bridge->getNotifications( 'array' );
-		$this->view->response = $response ;*/
+		$time_line = MF_ApiCaller::call('User', 'listTimeline');
+		$this->view->response = $time_line;
 	}	
 	public function getTimelineAction(){
-		$args = array();
-		$time_line = MF_ApiCaller::call('User', 'listTimeline', $args);
-		var_dump($time_line);
-		/*$response = $this->bridge->getTimeline( 'me', 'array' );
-		$this->view->response = $response ;*/
+		$time_line = MF_ApiCaller::call('User', 'listTimeline');
+		$this->view->response = $time_line ;
 	}	
 	public function profileAction(){
 		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
-			$args = array();
-			$user = MF_ApiCaller::call('User', 'listTimeline', $args);
-			/*$this->bridge = new UsersBridge();
-			$request = MF_Request::getInstance();
-			$user_id = $request->getParam('user_id', 'me');
-			$response = $this->bridge->getData($user_id);*/
-			$this->view->response = "profile";
-			/*$notification_response = $this->bridge->getTimeline($user_id, 'array' );
-			$this->view->notification_response = $notification_response ;*/
+			$user = MF_ApiCaller::call('User', 'getData');
+			$this->view->response = $user;
+			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline');
+			$this->view->get_timeline_response = $get_timeline_response ;
 		}
 		else{ 
 			$this->redirect( array('controller'=>'auth', 'action'=>'login') );
