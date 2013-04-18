@@ -12,17 +12,17 @@ var show_more_description = function(){
 	    $('.readmore').html('Read more')
 	}
 }
-var show_shared_apps= function (){
+var list_shared_apps= function (){
 	$.ajax({  
-	    url: base_url+'applications/getShared/', 
+	    url: base_url+'applications/listShares/', 
 	    success: function(data) {  
 	        $('#appssections').html(data);  
 	    }  
 	}); 
 }
-var show_favorites_apps= function (){
+var list_favorites_apps= function (){
 	$.ajax({  
-	    url: base_url+'applications/getFavorites/',  
+	    url: base_url+'applications/listFavorites/',  
 	    success: function(data) {  
 	        $('#appssections').html(data);  
 	    }  

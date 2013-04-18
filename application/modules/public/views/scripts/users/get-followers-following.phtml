@@ -1,0 +1,26 @@
+<?php echo '<h2>'.$this->title.'</h2>'?>
+<?php 
+	if($this->follow){
+		/*foreach($this->follow as $follow){
+			$follow_user = new User();
+			$follow_user->select($follow->id);?>	
+					
+			<table class="follower_box">
+				<tr>
+					<td>
+						<img src="<?php $link_picture ="pictures/".$follow->id."/".$follow_user->picture; echo $this->getUrl($link_picture); ?>" class="friend_profile_image" />
+					</td>
+					<td>
+						<?php echo $follow_user->first_name.' '.$follow_user->last_name;?><br />
+						<?php echo 'Apps: '.$follow_user->getDependentRowsCounter('Share');?><br />
+					</td>
+				</tr>
+			</table>
+			<?php 
+		}*/
+		echo "followers or followings";
+	}
+	else{
+		echo 'you dont have followers or your not following anybody';
+	}
+?>

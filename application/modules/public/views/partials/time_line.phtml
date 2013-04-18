@@ -1,0 +1,23 @@
+<?php 
+	/*$auth = MF_Auth::getInstance();
+	//var_dump($this->response);exit;
+	foreach( $this->response["notifications"] as $notification){
+		$text = $notification["text"];
+		$data = json_decode( $notification['data'] );
+		$owner_data = isset($notification['owner_data']) ? $notification['owner_data'] : $this->user ;
+		if( strpos( $text, '%user%' ) !== false ){
+			$user_link = '<a href="?user_id='.$data->user->id.'">'.$data->user->text.'</a>';
+			$text = str_replace( '%user%', $user_link, $text );
+		}
+		if( strpos( $text, '%application%' ) !== false ){
+			$application_link = '<a href="'.$this->getUrl( array('controller'=>'applications', 'action'=>'getData', 'shared_id'=>$data->application->shared_id, 'package_name'=>$data->application->package_name) ).'">'.$data->application->text.'</a>';
+			$text = str_replace( '%application%', $application_link, $text );
+		}
+		if( strpos( $text, '#user_fullname#' ) !== false ){
+			$user_link = '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'profile', 'user_id'=>$owner_data["id"]) ).'">'.$owner_data["first_name"].'</a>';
+			$text = str_replace( '#user_fullname#', $user_link, $text );
+		}
+		echo '<div class="notification_box_tl">'.$text.'</div>';
+	}*/
+	echo "time line";
+?>

@@ -1,6 +1,7 @@
 <?php
 	$this->addStyle("css/global.css");
 	$this->addScript("https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js");
+	$this->addScript("js/global.js");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -8,6 +9,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title><?php echo isset($this->title)? $this->title:'No title'; ?></title>
 		<?php echo $this->getHeaderIncludes(); ?>
+		<script type="text/javascript">
+			var base_url = '/<?php echo BASE_URL; ?>/';
+		</script>	
 	</head>
 	<body>
 		<div id="wrapper">
