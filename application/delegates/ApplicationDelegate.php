@@ -20,6 +20,18 @@ class ApplicationDelegate extends MF_ApiDelegate{
 		$this->_api_response->setResponse( array('application'=>$app_data) );
 	}
 	
+	public function viewShared( $args ){
+		if( !$this->validateRequiredArgs($args, array('share')) ){
+			return;
+		}
+		$share = new Share();
+		if( !$share->select( $args['share'] ) ){
+			$this->_api_response->setErrorCode( '1002' );
+			return;
+		}
+		$this->_api_response->setResponse( array('share'=>$share->getArrayData()) );
+	}
+	
 	public function share( $args ){
 		if( !$this->validateRequiredArgs($args, array('package_name', 'application_name')) ){
 			return;

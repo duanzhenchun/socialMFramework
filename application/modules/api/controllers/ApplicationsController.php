@@ -8,6 +8,13 @@ class Api_ApplicationsController extends MF_Controller{
 		$this->renderJSON( $response );
 	}
 	
+	public function viewSharedAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$response = MF_ApiCaller::call('Application', 'viewShared', $args);
+		$this->renderJSON( $response );
+	}
+	
 	public function shareAction(){
 		$request = MF_Request::getInstance();
 		$args = $request->getParams();

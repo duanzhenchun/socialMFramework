@@ -22,10 +22,10 @@ class User extends MF_Model{
 	}
 	
 	public function getFeeds( $from_id=false, $to_id=false, $limit=20 ){
-		$sql_condition = "WHERE ((`f`.`users_id`={$this->id})";
+		$sql_condition = "WHERE ((`f`.`users_id`={$this->id} AND `t`.`own_text` IS NOT NULL)";
 		$following = $this->getFollowings();
 		foreach( $following as $f ){
-			$sql_condition .= " OR (`f`.`users_id`={$f->id})";
+			$sql_condition .= " OR (`f`.`users_id`={$f->id} AND `t`.`other_text` IS NOT NULL)";
 		}
 		$sql_condition .= ")";
 		if( $from_id ){
@@ -36,7 +36,7 @@ class User extends MF_Model{
 		}
 		$sql_limit = $from_id? "" : "LIMIT $limit";
 		$sql_order = "ORDER BY `created_at` DESC";
-		$sql = "SELECT `f`.* FROM `feeds` AS `f`";
+		$sql = "SELECT `f`.* FROM `feeds` AS `f` INNER JOIN `feed_types` AS `t` ON `f`.`feed_types_id`=`t`.`id`";
 		$sql .= " ".$sql_condition;
 		$sql .= " ".$sql_order;
 		$sql .= " ".$sql_limit;

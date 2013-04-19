@@ -14,6 +14,6 @@
 		'3002' => 'App already shared for you' ,
 		'4001' => 'You are already follow this user' ,
 		'4002' => 'You are NOT follow this user' ,
-		'5001' => 'You already have this apicacion in favorites' ,
-		'5002' => 'You dont have this apicacion in favorites' ,
+		'5001' => 'You already have this apication in favorites' ,
+		'5002' => 'You dont have this apication in favorites' ,
 	);

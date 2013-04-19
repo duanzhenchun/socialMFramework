@@ -1,6 +1,13 @@
 <?php
 class Api_UsersController extends MF_Controller{
 	
+	public function searchAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$response = MF_ApiCaller::call('User', 'search', $args);
+		$this->renderJSON( $response );
+	}
+	
 	public function listTimelineAction(){
 		$request = MF_Request::getInstance();
 		$args = $request->getParams();

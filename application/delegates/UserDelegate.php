@@ -5,6 +5,20 @@ class UserDelegate extends MF_ApiDelegate{
 		parent::__construnct();
 	}
 	
+	public function search( $args ){
+		if( !$this->validateRequiredArgs($args, array('type','term')) ){
+			return;
+		}
+		$following = isset($args['following'])&&$args['following']?$args['following']:false;
+		if( $args['type'] == 'search' ){
+			$users = $this->searchUsers($args['term'], $following);
+			$this->_api_response->setResponse( array( 'users' => $users ) );
+		}else{
+			$this->_api_response->setErrorCode( '1002' );
+			return;
+		}
+	}
+	
 	public function getData( $args ){
 		if( !isset($args['user']) || !$args['user'] || $args['user']=='me' ){
 			$auth = MF_Auth::getInstance();
@@ -157,6 +171,62 @@ class UserDelegate extends MF_ApiDelegate{
 			$followings_data[] = $following->getArrayData();
 		}
 		$this->_api_response->setResponse( array( 'users' => $followings_data ) );
+	}
+	
+	protected function searchUsers( $term, $following, $result_limit = 20 ){
+		$auth = MF_Auth::getInstance();
+		$db = MF_Database::getDatabase();
+		if( $following ){
+			$sql = "SELECT `u`.* FROM `users` AS `u` INNER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE (`f`.`users1_id`={$auth->user->id})";
+		}else{
+			$sql = "SELECT `u`.* FROM `users` AS `u` WHERE id NOT IN (SELECT u.id FROM users AS u LEFT OUTER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE f.users1_id={$auth->user->id}) ";
+		}
+		$terms = explode( ' ', $term );
+		$sql_search = array();
+		if( count($terms)>1 ){
+			$sql_search[] = "`u`.`first_name` LIKE ".$db->quote($term);
+			$sql_search[] = "`u`.`last_name` LIKE ".$db->quote($term);
+			$sql_search_item = '';
+			foreach( $terms as $k => $t ){
+				if( $k != 0 ){
+					$sql_search_item .= ' OR';
+				}
+				$sql_search_item .= "(`u`.`last_name` LIKE ".$db->quote($t)." OR `u`.`last_name` LIKE ".$db->quote($t.' %')." OR `u`.`last_name` LIKE ".$db->quote('% '.$t)." OR `u`.`last_name` LIKE ".$db->quote('% '.$t.' %');
+				$sql_search_item .= " OR `u`.`first_name` LIKE ".$db->quote($t)." OR `u`.`first_name` LIKE ".$db->quote($t.' %')." OR `u`.`first_name` LIKE ".$db->quote('% '.$t)." OR `u`.`first_name` LIKE ".$db->quote('% '.$t.' %').')'; 
+			}
+			$sql_search[] = "($sql_search_item)";
+		}else{
+			$sql_search[] = "`u`.`email` LIKE ".$db->quote($term);
+			$sql_search[] = "`u`.`first_name` LIKE ".$db->quote($term);
+			$sql_search[] = "`u`.`last_name` LIKE ".$db->quote($term);
+			$sql_search[] = "`u`.`phone_number` LIKE ".$db->quote($term);
+			$sql_search[] = "`u`.`first_name` LIKE ".$db->quote($term.' %');
+			$sql_search[] = "`u`.`last_name` LIKE ".$db->quote($term.' %');
+			$sql_search[] = "`u`.`first_name` LIKE ".$db->quote('% '.$term.' %');
+			$sql_search[] = "`u`.`last_name` LIKE ".$db->quote('% '.$term.' %');
+			$sql_search[] = "`u`.`first_name` LIKE ".$db->quote('% '.$term.'%');
+			$sql_search[] = "`u`.`last_name` LIKE ".$db->quote('% '.$term.'%');
+			$sql_search[] = "`u`.`email` LIKE ".$db->quote($term.'@%');
+		}
+		
+		$sql_query = '';
+		$sql_order = '';
+		foreach( $sql_search as $k => $s ){
+			if( $k != 0 ){
+				$sql_query .= ' OR';
+				$sql_order .= ' ,';
+			}
+			$sql_query .= ' '.$s;
+			$sql_order .= ' '.$s.' DESC';
+		}
+		
+		$sql .= " AND ($sql_query) ORDER BY $sql_order LIMIT {$result_limit}";
+		$users = MF_Model::glob( 'User', $sql );
+		$users_data = array();
+		foreach( $users as $k => $u ) {
+			$users_data[] = $u->getArrayData();
+		}
+		return $users_data;
 	}
 	
 }

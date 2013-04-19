@@ -4,6 +4,7 @@
 		'Auth::facebookLogin' => 'all',
 		'Auth::logout' => 'all',
 		'Application::view' => 'all',
+		'Application::viewShared' => array('user','admin'),
 		'Application::share' => array('user','admin'),
 		'Application::listShares' => array('user','admin'),
 		'Application::listFavorites' => array('user','admin'),
@@ -19,6 +20,7 @@
 		'User::register' => 'all',
 		'User::getData' => array('user','admin'),
 		'User::follow' => array('user','admin'),
+		'User::search' => array('user','admin'),
 	);
 	
 	$_acl_models_data_allowed = array(
