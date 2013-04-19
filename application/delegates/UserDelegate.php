@@ -103,16 +103,18 @@ class UserDelegate extends MF_ApiDelegate{
 		if( !isset($args['user']) || !$args['user'] || $args['user']=='me' ){
 			$auth = MF_Auth::getInstance();
 			$user = $auth->user;
+			$own = false;
 		}else{
 			$user = new User();
 			if( !$user->select( $args['user'] ) ){
 				$this->_api_response->setErrorCode( '1002' );
 				return;
 			}
+			$own = true;
 		}
 		$from_id = isset($args['from'])&&$args['from']? $args['from'] : false;
 		$to_id = isset($args['to'])&&$args['to']? $args['to'] : false;
-		$feeds = $user->getFeeds( $from_id, $to_id );
+		$feeds = $user->getFeeds( $from_id, $to_id, $own );
 		$feeds_data = array();
 		foreach( $feeds as $feed ){
 			$feeds_data[] = $feed->getArrayData();
@@ -177,9 +179,9 @@ class UserDelegate extends MF_ApiDelegate{
 		$auth = MF_Auth::getInstance();
 		$db = MF_Database::getDatabase();
 		if( $following ){
-			$sql = "SELECT `u`.* FROM `users` AS `u` INNER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE (`f`.`users1_id`={$auth->user->id})";
+			$sql = "SELECT `u`.* FROM `users` AS `u` INNER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE (`u`.`id`<>{$auth->user->id}) AND (`f`.`users1_id`={$auth->user->id})";
 		}else{
-			$sql = "SELECT `u`.* FROM `users` AS `u` WHERE id NOT IN (SELECT u.id FROM users AS u LEFT OUTER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE f.users1_id={$auth->user->id}) ";
+			$sql = "SELECT `u`.* FROM `users` AS `u` WHERE (`u`.`id`<>{$auth->user->id}) AND id NOT IN (SELECT u.id FROM users AS u LEFT OUTER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE f.users1_id={$auth->user->id}) ";
 		}
 		$terms = explode( ' ', $term );
 		$sql_search = array();

@@ -37,7 +37,7 @@ class MF_FeedNotification{
 		
 	}
 
-	public static function sendFeed( $user, $data, $feed_type_id ){
+	public static function sendFeed( $user, $data, $feed_type_id, $exclude_user_id = null ){
 		$encoded_data = json_encode( $data );
 		$feed_type = new FeedType();
 		
@@ -52,6 +52,7 @@ class MF_FeedNotification{
 				$feed->users_id = $user->id;
 				$feed->feed_types_id = $feed_type->id;
 				$feed->serialized_data = $encoded_data;
+				$feed->excluded_user_id = $exclude_user_id;
 				$feed->save();
 			}
 		}
