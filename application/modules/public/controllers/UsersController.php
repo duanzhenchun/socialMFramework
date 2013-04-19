@@ -15,9 +15,12 @@ class UsersController extends MF_Controller{
 	public function profileAction(){
 		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
-			$user = MF_ApiCaller::call('User', 'getData');
+			$request = MF_Request::getInstance();
+			$args = $request->getParams();
+			$args['user'] = $request->getParam( 'id', 'me' );
+			$user = MF_ApiCaller::call('User', 'getData', $args);
 			$this->view->response = $user;
-			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline');
+			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
 			$this->view->get_timeline_response = $get_timeline_response ;
 		}
 		else{ 
@@ -25,6 +28,11 @@ class UsersController extends MF_Controller{
 		}
 	}
 	public function followAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$args['user'] = $request->getParam( 'user', 'me' );
+		$follow = MF_ApiCaller::call('User', 'follow',$args);
+		$this->redirect( array('controller'=>'users', 'action'=>'profile') );
 		/*$request = MF_Request::getInstance();
 		$id = $request->getParam( 'id', false );
 		$follow = $request->getParam( 'follow', false );

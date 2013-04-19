@@ -12,10 +12,11 @@
 		<li><a href="javascript:void(0);" onclick="load_followers_following('Followin');">following: <?php echo $user["followings_counter"]; ?></a></li>
 	</div>
 	<?php
-		$follow = MF_ApiCaller::call('User', 'follow');
-		//var_dump($follow);
-		if($follow["ok"]){
+		if(!$user["following"]){
 			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
+		}
+		elseif($user["following"]!="own"){
+			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'0' )).'">Unfollow</a>';
 		}
 	?>
 </div>

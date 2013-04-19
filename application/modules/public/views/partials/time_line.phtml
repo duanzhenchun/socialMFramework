@@ -2,7 +2,6 @@
 	//$auth = MF_Auth::getInstance();
 	//var_dump($this->response);
 	foreach( $this->response["feeds"] as $feed){
-		echo '<div class="notification_box_tl"><img src="'.$feed["thumb"].'">'.$feed["text"].'</div>';
+		echo '<div class="notification_box_tl"><img src="'.$feed["thumb"].'" width="50px">'.$feed["text"].'</div>';
 	}
-	echo "time line";
 ?>
