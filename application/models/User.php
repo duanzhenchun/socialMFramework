@@ -21,11 +21,14 @@ class User extends MF_Model{
 		return 0;
 	}
 	
-	public function getFeeds( $from_id=false, $to_id=false, $limit=20 ){
-		$sql_condition = "WHERE ((`f`.`users_id`={$this->id} AND `t`.`own_text` IS NOT NULL)";
-		$following = $this->getFollowings();
-		foreach( $following as $f ){
-			$sql_condition .= " OR (`f`.`users_id`={$f->id} AND `t`.`other_text` IS NOT NULL)";
+	public function getFeeds( $from_id=false, $to_id=false, $only_own=false, $limit=20 ){
+		$auth = MF_Auth::getInstance();
+		$sql_condition = "WHERE (`f`.`excluded_user_id`!={$auth->user->id} OR `f`.`excluded_user_id` IS NULL) AND ((`f`.`users_id`={$this->id} AND `t`.`own_text` IS NOT NULL)";
+		if( !$only_own ){
+			$following = $this->getFollowings();
+			foreach( $following as $f ){
+				$sql_condition .= " OR (`f`.`users_id`={$f->id} AND `t`.`other_text` IS NOT NULL)";
+			}
 		}
 		$sql_condition .= ")";
 		if( $from_id ){

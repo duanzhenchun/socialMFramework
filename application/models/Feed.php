@@ -21,7 +21,7 @@ class Feed extends MF_Model{
 	
 	public function getText(){
 		$auth = MF_Auth::getInstance();
-		if( $auth->isLogged() && $this->users_id==$auth->user->id ){
+		if( $auth->isLogged() && $this->users_id==$auth->user->id || $this->feed_types_id==5 ){
 			return $this->parceOwnText();
 		}
 		return $this->parceOtherText();
