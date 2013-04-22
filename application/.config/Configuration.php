@@ -4,7 +4,7 @@ class Configuration{
 	
 	// set here the domains and IP's
 	protected $_hosts = array(
-		'development' => array('localhost', '192.168.0.15'),
+		'development' => array('localhost.com', 'www.localhost.com','192.168.0.15'),
 		'production' => array('174.121.162.130', 'satoriwd.com', 'www.satoriwd.com') // you can add here any domains into an array
 	);
 	

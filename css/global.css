@@ -250,7 +250,8 @@ div.error_message{
 .app_box{
 	width: 600px;
 	height: auto;
-	margin: 5px 0px;
+	margin: auto;
+	margin-top: 10px;
 	background: #fff;
 	border: 1px solid;
 }
@@ -402,9 +403,12 @@ div.error_message{
 }
 /* SECTION MY TIME LINE*/
 .notification_box_tl{
-	width: 60%;
+	/*width: 60%;
 	height: 30px;
-	margin: 10px;
+	margin: 10px;*/
+	width: 30%;
+	height: 50px;
+	margin: 5px;
 	padding: 10px;
 	background:#7ac5bd;
 	float:right;
@@ -412,6 +416,10 @@ div.error_message{
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	color: #fff;
+}
+.notification_box_tl_text{
+	float: right;
+	width:80%;
 }
 .app_description{
 	width:420px;

@@ -1,1 +1,59 @@
-edit
+<?php 
+//var_dump($this->response);
+$user_data = $this->response["user"];	
+?>
+<form action="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'edit', 'edit'=>'ok' )); ?>" method="post" class="edit_profile_form">
+	<table>
+		<tr >
+			<td rowspan="9">
+				<img src="<?php echo $user_data["picture"];?>" class="profile_image">
+			</td>
+		</tr>
+		
+		<tr>
+			<td><label>Name</label></td>
+			<td><input type="text" name="name" value="<?php echo $user_data["first_name"].' '.$user_data["last_name"];?>"></td>
+		</tr>
+		<tr>
+			<td><label>Email</label></td>
+			<td><input type="text" name="email" value="<?php echo $user_data["email"];?>"></td>
+		</tr>
+		<tr>
+			<td><label>Password</label></td>
+			<td><input type="text" name="password"></td>
+		</tr>
+		<tr>
+			<td><label>Phone number</label></td>
+			<td><input type="text" name="phone" value="<?php echo $user_data["phone_number"];?>"></td>
+		</tr>
+		<tr>
+			<td><label>Sex</label></td>
+			<td>
+				M<input type="radio" name="sex" value="masculine" <?php echo $user_data["sex"] ="masculine"? 'checked=':''?>>
+				F<input type="radio" name="sex" value="femenine" <?php echo $user_data["sex"] ="femenine"? 'checked=':''?>>
+			</td>
+		</tr>
+		<tr>
+			<td><label>Website</label></td>
+			<td>
+				<input type="text" name="website" value="<?php echo $user_data["website"];?>">
+			</td>
+		</tr>
+		<tr>
+			<td><label>profession</label></td>
+			<td>
+				<input type="text" name="profession" value="<?php echo $user_data["profession"];?>">
+			</td>
+		</tr>
+		<tr>
+			<td><label>Bio</label></td>
+			<td>
+				<textarea rows="20" cols="20" name="bio"><?php echo $user_data["bio"];?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td><input type="submit"></td>
+			<td></td>
+		</tr>
+	</table>
+</form>

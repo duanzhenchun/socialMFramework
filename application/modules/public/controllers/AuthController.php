@@ -14,6 +14,11 @@ class AuthController extends MF_Controller{
 		}
 				
 	}
+	public function facebookLoginAction(){
+		$facebook = new Facebook();
+		$fb_user = $facebook->getUser();
+		var_dump( $fb_user );
+	}
 	
 	public function logoutAction(){
 		$response = MF_ApiCaller::call('Auth', 'logout');

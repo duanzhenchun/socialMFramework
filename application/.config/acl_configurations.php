@@ -33,6 +33,10 @@
 				'favorites_counter'		=> 'counter::Favorite',
 				'followers_counter'		=> 'counter::Follower::user2',
 				'followings_counter'	=> 'counter::Follower::user1',
+				'bio'					=> 'attr',
+				'sex'					=> 'attr',
+				'website'				=> 'attr',
+				'profession'			=> 'attr',				
 			),
 			'user' => array(
 				'facebook_id'		=> 'attr',

@@ -24,6 +24,7 @@
 	
 	define('FB_APP_ID','119281864915278');
 	define('FB_APP_SECRET','e495d3bd43609c21cc9aacb0d41d41ef');
+	define('FB_URI_LOGIN','www.localhost.com');
 	
 	require_once(APPLICATION_PATH.'/../src/facebook.php');
 	include(APPLICATION_PATH."/../android-market-api-php/proto/protocolbuffers.inc.php");

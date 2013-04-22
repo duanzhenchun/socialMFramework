@@ -41,12 +41,25 @@ class UsersController extends MF_Controller{
 	}
 	
 	public function editAction(){
-		/*$auth = MF_Auth::getInstance();
+		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
-			$this->bridge = new UsersBridge();
-			$response = $this->bridge->getData($auth->user->id);
-			$this->view->response = $response;
-		}*/
+			$request = MF_Request::getInstance();
+			$save = $request->getParam('edit');
+			if($save != 'ok'){
+				$args = $request->getParams();
+				$args['user'] = $request->getParam( 'id', 'me' );
+				$user = MF_ApiCaller::call('User', 'getData', $args);
+				$this->view->response = $user;
+			}
+			else{
+				//die("save");
+				$this->view->addFlashMessage( array("error", "dont work the edit delegate!") );
+				$args = $request->getParams();
+				$args['user'] = $request->getParam( 'id', 'me' );
+				$user = MF_ApiCaller::call('User', 'getData', $args);
+				$this->view->response = $user;
+			}
+		}
 	}
 	public function getFollowersFollowingAction(){
 		$this->disablelayout();

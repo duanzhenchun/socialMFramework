@@ -57,4 +57,4 @@ var application_fav = function ( shared_id, fav, package_name){
 	    	}    
 	    }  
 	});  
-}
+}var initFB = function(){	FB.init({      appId      : fb_app_id,                        // App ID from the app dashboard      status     : true,                                 // Check Facebook Login status      xfbml      : true                                  // Look for social plugins on the page    }); 	FB.login(function(response){    	if (response.status === 'connected') {    		var accessToken = response.authResponse.accessToken;		    alert( accessToken );		  }else{		  	alert("Not yet :()");		  }    });}
