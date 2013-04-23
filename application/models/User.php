@@ -15,7 +15,7 @@ class User extends MF_Model{
 	}
 	
 	public function isProfileComplete(){
-		if( isset($this->password) && $this->password ){
+		if( $this->password ){
 			return 1;
 		}
 		return 0;

@@ -6,6 +6,7 @@
 		'1003' => 'Passwords not match',
 		'1004' => 'Registered, but can\'t login',
 		'1005' => 'Facebook login failed' ,
+		'1006' => 'Invalid facebook scopes (no email access)' ,
 		'2000' => "You don't have access to this resource" ,
 		'2001' => 'User or password incorrect' ,
 		'2002' => 'User disabled' ,
