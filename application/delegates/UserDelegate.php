@@ -6,12 +6,21 @@ class UserDelegate extends MF_ApiDelegate{
 	}
 	
 	public function search( $args ){
-		if( !$this->validateRequiredArgs($args, array('type','term')) ){
+		if( !$this->validateRequiredArgs($args, array('type')) ){
 			return;
 		}
 		$following = isset($args['following'])&&$args['following']?$args['following']:false;
 		if( $args['type'] == 'search' ){
+			if( !$this->validateRequiredArgs($args, array('term')) ){
+				return;
+			}
 			$users = $this->searchUsers($args['term'], $following);
+			$this->_api_response->setResponse( array( 'users' => $users ) );
+		}elseif( $args['type'] == 'facebook' ){
+			if( !$this->validateRequiredArgs($args, array('access_token')) ){
+				return;
+			}
+			$users = $this->searchFacebookUsers($args['access_token'], $following);
 			$this->_api_response->setResponse( array( 'users' => $users ) );
 		}else{
 			$this->_api_response->setErrorCode( '1002' );
@@ -173,6 +182,35 @@ class UserDelegate extends MF_ApiDelegate{
 			$followings_data[] = $following->getArrayData();
 		}
 		$this->_api_response->setResponse( array( 'users' => $followings_data ) );
+	}
+	
+	protected function searchFacebookUsers( $access_token, $following ){
+		$facebook = new Facebook();
+		$facebook->setAccessToken( $access_token );
+		$auth = MF_Auth::getInstance();
+		$fb_user = $facebook->getUser();
+		if( !$fb_user ){
+			$this->_api_response->setErrorCode( '1005' );
+			return;
+		}
+		$friends = $facebook->api('/me/friends');
+		if( $following ){
+			$sql = "SELECT `u`.* FROM `users` AS `u` INNER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE (`u`.`id`<>{$auth->user->id}) AND (`f`.`users1_id`={$auth->user->id})";
+		}else{
+			$sql = "SELECT `u`.* FROM `users` AS `u` WHERE (`u`.`id`<>{$auth->user->id}) AND id NOT IN (SELECT u.id FROM users AS u LEFT OUTER JOIN `followers` AS `f` ON `f`.`users2_id`=`u`.`id` WHERE f.users1_id={$auth->user->id}) ";
+		}
+		$sql_query = '';
+		foreach( $friends['data'] as $i => $friend ){
+			if( $i != 0 ) $sql_query .= " OR";
+			$sql_query .= " `facebook_id`='{$friend['id']}'";
+		}
+		$sql .= " AND ($sql_query) ORDER BY `first_name` DESC";
+		$users = MF_Model::glob( 'User', $sql );
+		$users_data = array();
+		foreach( $users as $k => $u ) {
+			$users_data[] = $u->getArrayData();
+		}
+		return $users_data;
 	}
 	
 	protected function searchUsers( $term, $following, $result_limit = 20 ){
