@@ -25,7 +25,7 @@ class Api_ApplicationsController extends MF_Controller{
 	public function listSharesAction(){
 		$request = MF_Request::getInstance();
 		$args = array();
-		$args['user_id'] = $request->getParam( 'user', 'me' );
+		$args['user'] = $request->getParam( 'user', 'me' );
 		$response = MF_ApiCaller::call('Application', 'listShares', $args);
 		$this->renderJSON( $response );
 	}
@@ -33,7 +33,7 @@ class Api_ApplicationsController extends MF_Controller{
 	public function listFavoritesAction(){
 		$request = MF_Request::getInstance();
 		$args = array();
-		$args['user_id'] = $request->getParam( 'user', 'me' );
+		$args['user'] = $request->getParam( 'user', 'me' );
 		$response = MF_ApiCaller::call('Application', 'listFavorites', $args);
 		$this->renderJSON( $response );
 	}

@@ -11,7 +11,8 @@ class FavoriteTrigger extends MF_ActionTriggerAbstract{
 		$application = $share->getParent( 'Application' );
 		
 		$data = array(
-			'application' => array( 'text'=>$application->application_name, 'package_name'=>$application->package_name, 'shared_id'=>$share->id )
+			'application' => array( 'text'=>$application->application_name, 'package_name'=>$application->package_name, 'shared_id'=>$share->id ),
+			'user' => array( 'id'=>$user->id, 'text'=>$user->getFullName() ),
 		);
 		
 		MF_FeedNotification::sendFeed($user, $data, 4);

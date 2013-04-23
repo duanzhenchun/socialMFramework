@@ -72,7 +72,7 @@ class ApplicationDelegate extends MF_ApiDelegate{
 				return;
 			}
 		}
-		$shares = $auth->user->getDependentRows( 'Share' );
+		$shares = $user->getDependentRows( 'Share' );
 		$shares_data = array();
 		foreach( $shares as $key => $share ){
 			$shares_data[] = $share->getArrayData();
@@ -91,7 +91,7 @@ class ApplicationDelegate extends MF_ApiDelegate{
 				return;
 			}
 		}
-		$favorites = $auth->user->getDependentRows( 'Favorite' );
+		$favorites = $user->getDependentRows( 'Favorite' );
 		$favorites_data = array();
 		foreach( $favorites as $key => $favorite ){
 			$favorites_data[] = $favorite->getArrayData();

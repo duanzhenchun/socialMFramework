@@ -35,9 +35,13 @@ class AuthDelegate extends MF_ApiDelegate{
 			$user = new User();
 			$auth = MF_Auth::getInstance();
 			$me = $facebook->api('/me');
+			if( !isset($me['email']) ){
+				$this->_api_response->setErrorCode( '1006' );
+				return;
+			}
 			$email = $me['email'];
 			$save = false;
-			if( !$user->select( $email, 'email' ) || !$user->isProfileComplete() ){
+			if( !$user->select( $fb_user, 'facebook_id' ) || !$user->isProfileComplete() ){
 				$this->_api_response->setResponse( array( 'profile_complete'=>0 ) );
 				return;
 			}

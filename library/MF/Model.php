@@ -231,7 +231,7 @@
 							$parent = $this->getParent( $type_parts[1], $type_parts[2] );
 						else
 							$parent = $this->getParent( $type_parts[1] );
-						$data_array[$attr] = $parent->getArrayData();
+						$data_array[$attr] = $parent? $parent->getArrayData() : null;
 					}elseif( $type_parts[0] == 'dependents' ){
 						if( isset($type_parts[2]) )
 							$dependents = $this->getDependentRows( $type_parts[1], $type_parts[2] );
