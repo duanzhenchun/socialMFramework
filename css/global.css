@@ -1,12 +1,10 @@
-*{
-	margin: 0;
-	padding: 0;
-}
 body{
 	font-family: verdana, arial, serif;
 	font-size: 10pt;
 	color: #000;
-	background: #fff url("img/back.png");
+	background: #3f8c84;
+	margin: 0;
+	padding: 0;
 }
 /*for 980 +*/
 @media screen and (min-width:980px) {
@@ -97,9 +95,8 @@ div.error_message{
 	width:201px;
 	height: 90px;
 	background: url("img/logo_medium.png");
-	position:absolute;
 	top:40px;
-	left:600px;
+	margin:auto;
 }
 .logo_home{
 	width:402px;
@@ -108,6 +105,12 @@ div.error_message{
 	position:absolute;
 	top:10px;
 	left:500px;
+}
+.logo_login{
+	width:402px;
+	height: 180px;
+	background: url("img/logo.png") no-repeat;
+	margin:auto;
 }
 .image_home{
 	background: url("img/image_home.png");
@@ -173,24 +176,39 @@ div.error_message{
 	margin: auto;
 	width: 800px;
 	top:120px;
-	position: absolute;
 }
-.form_login table tr td label{
+.form_login table{
+	margin:50px auto;
+	width:50%;
+}
+.form_login table tr td{
+	margin-top: 10px;
+}
+.form_login table tr .label{
 	color: #fff;
+	padding: 0 15px;
+	background: #367771;
 }
 .form_login table tr td input[type=text], .form_login table tr td input[type=password]{
-	width: 250px;
-	height: 30px;
-	background: #fff !important;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	padding-left: 20px; 
+	width: 100%;
+	height: 35px;
+	background: #7ac5be !important;
+	padding-left: 20px;
+	border:none; 
 }
 .form_login table tr td input:hover, .form_login table tr td input:focus, .form_login table tr td input:autofill {
-	width: 250px;
-	height: 30px;
-	background: #fff;
+	width: 100;
+	height: 35px;
+	background: #7ac5be !important;
+	padding-left: 20px;
+	border:none;
+}
+.form_login_submit_button {
+	width: 100%;
+	height: 35px;
+	background: #367771 !important;
+	border:none; 
+	color:#fff;
 }
 /* CONTENTS STYLES*/
 .user_menu{
@@ -322,7 +340,8 @@ div.error_message{
 	margin-right: 10px;
 }
 #profile_data{
-	
+	width:70%;
+	float: left;
 }
 .sub_menu {
 	height: 20px;
@@ -390,9 +409,9 @@ div.error_message{
 }
 /* SECTION newsfeed*/
 .notification_box{
-	width: 100%;
-	height: 30px;
-	margin: 10px;
+	width: 50%;
+	height: 50px;
+	margin: 5px 10px;
 	padding: 10px;
 	background:#7ac5bd;
 	float:left;
@@ -406,12 +425,12 @@ div.error_message{
 	/*width: 60%;
 	height: 30px;
 	margin: 10px;*/
-	width: 30%;
+	width: 60%;
 	height: 50px;
 	margin: 5px;
 	padding: 10px;
 	background:#7ac5bd;
-	float:right;
+	float:left;
 	webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;

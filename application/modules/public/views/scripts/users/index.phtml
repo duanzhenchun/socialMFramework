@@ -1,5 +1,33 @@
 <?php 
-	foreach( $this->response["feeds"] as $feed){
+	/*foreach( $this->response["feeds"] as $feed){
 		echo '<div class="notification_box"><img src="'.$feed["thumb"].'" width="50px">'.$feed["text"].'</div>';
-	}
+	}*/
 ?>
+<?php
+	//var_dump($this->response);
+	$user = $this->response["user"];
+?>
+<div class="profile_detail">
+	<h2><?php echo $user["first_name"].' '.$user["last_name"];?></h2>
+	<img src="<?php echo $user["picture"];?>" class="profile_image" />
+	<div class="my_profile_menu">
+		<li><a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'profile' )); ?>" >My TimeLine</a></li>
+		<li><a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index' )); ?>">Shared apps: <?php echo $user["shares_counter"]; ?></a></li>
+		<li><a href="javascript:void(0);" onclick="load_followers_following('followers');">followers: <?php echo $user["followers_counter"]  ?></a></li>
+		<li><a href="javascript:void(0);" onclick="load_followers_following('Followin');">following: <?php echo $user["followings_counter"]; ?></a></li>
+	</div>
+	<?php
+		if(!$user["following"]){
+			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
+		}
+		elseif($user["following"]!="own"){
+			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'0' )).'">Unfollow</a>';
+		}
+	?>
+</div>
+<div id="profile_data">
+	<h2>Time Line</h2>
+		<?php 
+		echo $this->partial( 'time_line',array('response'=>$this->get_timeline_response) );
+		?>
+</div>

@@ -1,9 +1,9 @@
-<?php
+<?php	
 	//var_dump($this->response);
 	$apps = $this->response["shares"];
 	foreach( $apps as $app){
 		$app_data =$app["application"];
-		//var_dump($app_data);			
+		//var_dump($app);			
 ?>
 	<div class="app_box">
 		<div class="app_title">
@@ -13,9 +13,20 @@
 			<img src="<?php echo $app_data["icon"]; ?>">
 			<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'getData', 'shared_id'=> $app_data["shared_id"], 'package_name' =>$app_data["package_name"] )); ?>"><h2><?php echo '<b>'.$app_data["package_name"].'</b>';?></h2></a>
 			<div class="app_box_description_icons">
-				<?php echo "1". '<a href="'.$this->getUrl( array('controller'=>'applications', 'action'=>'favorite', 'id'=>$app_data["id"], 'favorite'=>'1' )).'">Favs</a>' ;?>
-				<?php echo "1". '<a href="#">Comments</a>';?> 
-				<?php echo "1". '<a href="'.$this->getUrl( array('controller'=>'applications', 'action'=>'share', 'id'=>$app_data["id"], 'share'=>'1' )).'">Shareds</a>'  ;?> 		
+				<?php 
+				//echo "1". '<a href="'.$this->getUrl( array('controller'=>'applications', 'action'=>'favorite', 'id'=>$app_data["id"], 'favorite'=>'1' )).'">Favs</a>' ;
+				echo $app["favorites_counter"]."favs";
+				if( $app["is_favorite"]){	?>
+					<a href="javascript:void();" onclick="send_fav_action(45,0);">UnFav</a>
+				<?php }else{?>
+					<a href="javascript:void();" onclick="send_fav_action(45,1);">Fav</a>
+				<?php }?>
+				
+				<?php echo $app["comments_counter"]. '<a href="#">Comments</a>';?> 
+				<?php 
+					//echo "1". '<a href="'.$this->getUrl( array('controller'=>'applications', 'action'=>'share', 'id'=>$app_data["id"], 'share'=>'1' )).'">Shareds</a>';
+					echo $app_data["shares_counter"]. '<a href="javascript:void();" onclick="send_share_action();">Shareds</a>';
+				?> 		
 			</div>
 			<div class="app_description"><?php echo $app_data["description"];?></div>
 			<a href="#" onclick="show_more_description();" class="readmore">Read more </a>

@@ -3,8 +3,8 @@
 	$apps = $this->response["favorites"];
 	if($apps){
 		foreach( $apps as $app){
-			$app_data =$app["application"];
-			//var_dump($app_data);			
+			$app_data =$app["share"] ["application"];
+			//var_dump($app["share"] ["application"]);		
 ?>
 		<div class="app_box">
 			<div class="app_title">
@@ -15,8 +15,8 @@
 				<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'getData', 'shared_id'=> $app_data["shared_id"], 'package_name' =>$app_data["package_name"] )); ?>"><h2><?php echo '<b>'.$app_data["package_name"].'</b>';?></h2></a>
 				<div class="app_box_description_icons">
 					<?php echo "1". 'Favs' ;?>
-					<?php echo "1". 'Comments'  ;?> 
-					<?php echo "1". 'Shareds'  ;?> 		
+					<?php echo "1". 'Comments';?> 
+					<?php echo "1". 'Shareds';?> 		
 				</div>
 				<div class="app_description"><?php echo $app_data["description"];?></div>
 				<a href="#" onclick="show_more_description();" class="readmore">Read more </a>

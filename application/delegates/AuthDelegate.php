@@ -31,7 +31,6 @@ class AuthDelegate extends MF_ApiDelegate{
 		$facebook = new Facebook();
 		$facebook->setAccessToken( $args['access_token'] );
 		$fb_user = $facebook->getUser();
-		
 		if( !empty($fb_user) ){
 			$user = new User();
 			$auth = MF_Auth::getInstance();

@@ -45,9 +45,9 @@ class ApplicationsController extends MF_Controller{
 		$this->disableLayout();
 		$request = MF_Request::getInstance();
 		$args = array();
-		$args['package_name'] = $request->getParam( 'package_name', false );
-		$args['application_name'] = $request->getParam( 'application_name', false );
-		$response = MF_ApiCaller::call('Application', 'share', $args);
+		$args['shared_id'] = $request->getParam( 'shared_id', false );
+		$args['favorite'] = $request->getParam( 'favorite', false );
+		$response = MF_ApiCaller::call('Favorite', 'changeStatus', $args);
 		$this->view->response= $response ;
 	}
 }

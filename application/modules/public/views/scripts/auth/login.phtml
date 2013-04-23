@@ -1,28 +1,29 @@
-<div class="logo_medium"></div>
+<div class="logo_login"></div>
 <form action="?do=save" method="post" class="form_login">
-	<table style="margin:50px auto;width:300px;">
+	<table>
 <?php
 	$this->partial( 'flash_messages', array('flash_messages'=>$this->getFlashMessages()) );
 ?>
 		<tr>
-			<td style="padding:2px;">
+			<td class="label">
 				<label for="username">Username</label>
 			</td>
-			<td style="padding:2px;">
+			<td>
 				<input type="text" name="email" id="email" />
 			</td>
-		</tr>
+		</tr><br />
 		<tr>
-			<td style="padding:2px;">
+			<td  class="label">
 				<label for="password">Password</label>
 			</td>
-			<td style="padding:2px;">
+			<td>
 				<input type="password" name="password" id="password" />
 			</td>
 		</tr>
 		<tr>
-			<td align="center" style="padding:5px;">
-				<input type="submit" value="Login"  style="padding:2px 5px;" />
+			<td></td>
+			<td align="center">
+				<input type="submit" value="Login"  class="form_login_submit_button" />
 			</td>
 		</tr>
 	</table>
