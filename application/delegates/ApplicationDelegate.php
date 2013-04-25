@@ -26,7 +26,7 @@ class ApplicationDelegate extends MF_ApiDelegate{
 		}
 		$share = new Share();
 		if( !$share->select( $args['share'] ) ){
-			$this->_api_response->setErrorCode( '1002' );
+			$this->_api_response->setErrorCode( '6000' );
 			return;
 		}
 		$this->_api_response->setResponse( array('share'=>$share->getArrayData()) );
@@ -59,6 +59,21 @@ class ApplicationDelegate extends MF_ApiDelegate{
 		$share->applications_id = $app->id;
 		$share->save();
 		$this->_api_response->setResponse( array('googleplay_founded'=>$googleplay_founded) );
+	}
+	
+	public function unshare( $args ){
+		if( !$this->validateRequiredArgs($args, array('package_name')) ){
+			return;
+		}
+		$auth = MF_Auth::getInstance();
+		$app = new Application();
+		$share = new Share();
+		if( !$app->select( $args['package_name'], 'package_name' ) || ! $share->selectSpecific($app->id, $auth->user->id) ){
+			$this->_api_response->setErrorCode( '3003' );
+			return;
+		}
+		$share->delete();
+		$this->_api_response->setResponse();
 	}
 	
 	public function listShares( $args ){

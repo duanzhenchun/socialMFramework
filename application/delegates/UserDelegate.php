@@ -94,7 +94,6 @@ class UserDelegate extends MF_ApiDelegate{
 			$this->_api_response->setErrorCode( 1001 );
 			return;
 		}
-		$plain_password = $args['password'];
 		$auth = MF_Auth::getInstance();
 		$args['password'] = $auth->createHashedPassword( $args['password'] );
 		unset( $args['confirm_password'] );
@@ -106,6 +105,44 @@ class UserDelegate extends MF_ApiDelegate{
 		}else{
 			$this->_api_response->setErrorCode( 1004 );
 		}
+	}
+	
+	public function edit( $args ){
+		if( !$this->validateRequiredArgs($args, array('current_password')) ){
+			return;
+		}
+		$auth = MF_Auth::getInstance();
+		if( $auth->createHashedPassword($args['current_password']) != $auth->user->password ){
+			$this->_api_response->setErrorCode( 2003 );
+			return;
+		}
+		if( $args['password'] != $args['confirm_password'] ){
+			$this->_api_response->setErrorCode( 1003 );
+			return;
+		}
+		unset($args['confirm_password']);
+		unset($args['current_password']);
+		$db = MF_Database::getDatabase();
+		$email_sql = "SELECT * FROM `users` WHERE `email` LIKE ".$db->quote( $args['email'] )." AND `id`!={$auth->user->id}";
+		$user = new User();
+		if( strlen($args['email'])>0 && $user->selectFromSQL( $email_sql ) ){
+			$this->_api_response->setErrorCode( 1001 );
+			return;
+		}
+		$user_change = false;
+		foreach( $args as $k => $a ){
+			if( strlen($a) > 0 ){
+				if( $k == 'password' ){
+					$plain_password = $args['password'];
+					$auth->user->password = $auth->createHashedPassword( $args['password'] );
+				}else{
+					$auth->user->$k = $a;
+				}
+				$user_change = true;
+			}
+		}
+		if($user_change) $auth->user->save();
+		$this->_api_response->setResponse( array('user'=>$auth->user->getArrayData( $auth->user )) );
 	}
 	
 	public function listTimeline( $args ){

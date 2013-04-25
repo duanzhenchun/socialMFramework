@@ -4,7 +4,7 @@ class Configuration{
 	
 	// set here the domains and IP's
 	protected $_hosts = array(
-		'development' => array('localhost.com', 'www.localhost.com','192.168.0.15','192.168.0.19'),
+		'development' => array('localhost.com', 'www.localhost.com','192.168.0.15','192.168.0.19','192.168.1.100'),
 		'production' => array('174.121.162.130', 'satoriwd.com', 'www.satoriwd.com') // you can add here any domains into an array
 	);
 	
@@ -51,8 +51,8 @@ class Configuration{
 		// set the database
 		define("DB_HOST", "localhost");
 		define("DB_USER", "root");
-		define("DB_PASS", "");
-		//define("DB_PASS", "ynpmnabsqs");
+		//define("DB_PASS", "");
+		define("DB_PASS", "ynpmnabsqs");
 		define("DB_NAME", "appsaway");
 		
 		define('GOOGLE_EMAIL','admin@ikongroup.net');

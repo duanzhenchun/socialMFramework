@@ -50,6 +50,13 @@ class Api_UsersController extends MF_Controller{
 		$this->renderJSON( $response );
 	}
 	
+	public function editAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams(); // TODO change to POST !!!!
+		$response = MF_ApiCaller::call('User', 'edit', $args);
+		$this->renderJSON( $response );
+	}
+	
 	public function getDataAction(){
 		$request = MF_Request::getInstance();
 		$args = $request->getParams();

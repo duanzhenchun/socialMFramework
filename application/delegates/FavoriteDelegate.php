@@ -34,7 +34,7 @@ class FavoriteDelegate extends MF_ApiDelegate{
 			}
 		}
 		
-		$this->_api_response->setResponse( array() );
+		$this->_api_response->setResponse();
 	}
 	
 }

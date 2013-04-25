@@ -22,6 +22,13 @@ class Api_ApplicationsController extends MF_Controller{
 		$this->renderJSON( $response );
 	}
 	
+	public function unshareAction(){
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$response = MF_ApiCaller::call('Application', 'unshare', $args);
+		$this->renderJSON( $response );
+	}
+	
 	public function listSharesAction(){
 		$request = MF_Request::getInstance();
 		$args = array();
