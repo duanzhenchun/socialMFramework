@@ -6,7 +6,7 @@
 			<img src="<?php $link_picture ="pictures/".$auth->user->id."/".$auth->user->picture; echo $this->getUrl($link_picture); ?>" class="smal_profile_image" />
 		</a>
 		<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'edit') ); ?>">edit profile</a>
-		<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index') ); ?>">My Apps</a>
+		<!--<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index') ); ?>">My Apps</a>-->
 		<a href="<?php echo $this->getUrl( array('controller'=>'auth', 'action'=>'logout') ); ?>">Logout</a>
 <?php
 	else:

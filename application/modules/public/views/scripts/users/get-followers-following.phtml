@@ -10,7 +10,7 @@
 						<img src="<?php $link_picture ="pictures/".$user["id"]."/".$user["picture"]; echo $this->getUrl($link_picture); ?>" class="friend_profile_image" />
 					</td>
 					<td>
-						<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'profile','id'=>$user["id"]));?>"><?php echo $user["first_name"].' '.$user["last_name"];?></a><br />
+						<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'index','id'=>$user["id"]));?>"><?php echo $user["first_name"].' '.$user["last_name"];?></a><br />
 						<?php echo 'Followers '.$user["followers_counter"].' - Favorites '.$user["favorites_counter"].' - Shared apps '.$user["shares_counter"];?>
 						<?php 
 						$follow = MF_ApiCaller::call('User', 'follow');

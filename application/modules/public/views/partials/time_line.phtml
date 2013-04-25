@@ -1,7 +1,10 @@
-<?php 
-	//$auth = MF_Auth::getInstance();
-	//var_dump($this->response);
-	foreach( $this->response["feeds"] as $feed){
-		echo '<div class="notification_box_tl"><img src="'.$feed["thumb"].'" width="50px"><div class="notification_box_tl_text">'.$feed["text"].'</div></div>';
-	}
-?>
+<div class="time_line_profile">
+	<?php foreach( $this->response["feeds"] as $feed){?>
+		<div class="notification_box_tl"><img src="<? echo $feed["thumb"] ;?>" width="60px">
+			<div class="notification_box_tl_text">
+				<a href="javascript:void(0);" onclick="openFeddDetail();"><? echo $feed["text"]; ?></a>
+				<p class="time_indicator">1 hour ago</p>
+			</div>
+		</div>
+	<?}?>
+</div>

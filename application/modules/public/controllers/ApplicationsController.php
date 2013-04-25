@@ -16,7 +16,7 @@ class ApplicationsController extends MF_Controller{
 		$this->view->response = $response ;*/
 	}
 	
-	public function listSharesAction(){
+	public function listSharesProfileAction(){
 		$this->disableLayout();
 		$request = MF_Request::getInstance();
 		$args = array();
@@ -24,7 +24,7 @@ class ApplicationsController extends MF_Controller{
 		$response = MF_ApiCaller::call('Application', 'listShares', $args);
 		$this->view->response= $response ;
 	}
-	public function listFavoritesAction(){
+	public function listFavoritesProfileAction(){
 		$this->disableLayout();
 		$request = MF_Request::getInstance();
 		$args = array();

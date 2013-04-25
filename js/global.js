@@ -11,20 +11,27 @@ var show_more_description = function(){
 	    })
 	    $('.readmore').html('Read more')
 	}
-}
+}var user_edit_action = function(){
+	$.ajax({
+	    url: base_url+'users/edit/',
+	    success: function(data) {
+	        $('#profile_data').html(data);
+	    }
+	}); 
+}
 var list_shared_apps= function (){
 	$.ajax({
-	    url: base_url+'applications/listShares/',
+	    url: base_url+'applications/listSharesProfile/',
 	    success: function(data) {
-	        $('#appssections').html(data);
+	        $('#apps_in_profile_menu').html(data);
 	    }
 	}); 
 }
 var list_favorites_apps= function (){
 	$.ajax({  
-	    url: base_url+'applications/listFavorites/',  
+	    url: base_url+'applications/listFavoritesProfile/',  
 	    success: function(data) {  
-	        $('#appssections').html(data);  
+	        $('#apps_in_profile_menu').html(data);  
 	    }  
 	}); 
 }
@@ -74,3 +81,7 @@ var application_fav = function ( shared_id, fav, package_name){
 			    data: 'access_token='+accessToken,
 			    type:'POST',				success: function() {
 			    }  			}); 		}else{			alert("Not yet :()");		}    },{scope: 'email,read_friendlists,publish_stream'});}
+var openFeddDetail = function(){
+	alert("hey");
+	
+}

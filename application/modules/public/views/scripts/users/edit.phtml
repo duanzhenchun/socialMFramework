@@ -3,10 +3,11 @@
 $user_data = $this->response["user"];	
 ?>
 <form action="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'edit', 'edit'=>'ok' )); ?>" method="post" class="edit_profile_form">
-	<table>
+	<table style="width: 80%;">
 		<tr >
-			<td rowspan="9">
+			<td colspan="9">
 				<img src="<?php echo $user_data["picture"];?>" class="profile_image">
+				<a href="#">Change picture</a>
 			</td>
 		</tr>
 		

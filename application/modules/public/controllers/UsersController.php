@@ -30,15 +30,11 @@ class UsersController extends MF_Controller{
 		$args = $request->getParams();
 		$args['user'] = $request->getParam( 'user', 'me' );
 		$follow = MF_ApiCaller::call('User', 'follow',$args);
-		$this->redirect( array('controller'=>'users', 'action'=>'profile') );
-		/*$request = MF_Request::getInstance();
-		$id = $request->getParam( 'id', false );
-		$follow = $request->getParam( 'follow', false );
-		$response = $this->bridge->follow( $id, $follow );
-		$this->redirect( array('controller'=>'users', 'action'=>'profile','user_id'=>$id) );*/
+		$this->redirect( array('controller'=>'users', 'action'=>'index') );
 	}
 	
 	public function editAction(){
+		$this->disablelayout();
 		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
 			$request = MF_Request::getInstance();

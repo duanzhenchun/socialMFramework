@@ -1,33 +1,73 @@
-<?php 
-	/*foreach( $this->response["feeds"] as $feed){
-		echo '<div class="notification_box"><img src="'.$feed["thumb"].'" width="50px">'.$feed["text"].'</div>';
-	}*/
-?>
 <?php
 	//var_dump($this->response);
 	$user = $this->response["user"];
 ?>
-<div class="profile_detail">
-	<h2><?php echo $user["first_name"].' '.$user["last_name"];?></h2>
-	<img src="<?php echo $user["picture"];?>" class="profile_image" />
-	<div class="my_profile_menu">
-		<li><a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'profile' )); ?>" >My TimeLine</a></li>
-		<li><a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index' )); ?>">Shared apps: <?php echo $user["shares_counter"]; ?></a></li>
-		<li><a href="javascript:void(0);" onclick="load_followers_following('followers');">followers: <?php echo $user["followers_counter"]  ?></a></li>
-		<li><a href="javascript:void(0);" onclick="load_followers_following('Followin');">following: <?php echo $user["followings_counter"]; ?></a></li>
+<div id="left_column">
+	<div class="logo_medium">
+		<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'index' )); ?>">
+			<img src="<?php echo $this->getUrl('css/img/logo_profile.png'); ?>">
+		</a>
 	</div>
-	<?php
-		if(!$user["following"]){
-			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
-		}
-		elseif($user["following"]!="own"){
-			echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'0' )).'">Unfollow</a>';
-		}
-	?>
-</div>
-<div id="profile_data">
-	<h2>Time Line</h2>
-		<?php 
-		echo $this->partial( 'time_line',array('response'=>$this->get_timeline_response) );
+	<div class="profile_detail">
+		<div class="profile_detail_user">
+			<div style="float:left"><img src="<?php echo $user["picture"];?>" class="profile_image" /></div>
+			<div style="float:left;margin-left: 10px;">
+				<p><?php echo $user["first_name"].' '.$user["last_name"];?></p>
+<!--				<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'edit' )); ?>">Edit Profile</a><br />-->
+				<a href="#" onclick="user_edit_action();">Edit Profile</a><br />
+				<a href="<?php echo $this->getUrl( array('controller'=>'auth', 'action'=>'logout' )); ?>">Logout</a>
+			</div>
+		</div>
+		<div class="profile_sff">
+			<div class="profile_box_sff">
+				<a href="#">
+					<p class="profile_box_sff_number"><?php echo $user["shares_counter"]; ?></p>
+					Shared apps					
+				</a>
+			</div>
+			<div class="profile_box_sff">
+				<a href="javascript:void(0);" onclick="load_followers_following('Followin');">
+					<p class="profile_box_sff_number"><?php echo $user["followings_counter"]; ?></p>
+					following					
+				</a>
+			</div>
+			<div class="profile_box_sff">
+				<a href="javascript:void(0);" onclick="load_followers_following('followers');">
+					<p class="profile_box_sff_number"><?php echo $user["followers_counter"]  ?></p>
+					followers
+				</a>
+			</div>
+		</div>
+		<div class="my_profile_apps_menu">
+			<table style="width: 100%;">
+				<tr>
+					<td><p>My apps</p></td>
+					<td>         </td>
+					<td><a href="javascript:void(0);" onclick="list_shared_apps();" >Shared </a></td>
+					<td><a href="javascript:void(0);" onclick="list_favorites_apps();" >Favorites </a></td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<div id="apps_in_profile_menu">
+						</div>
+						<a href="#">see all</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<?php
+			if(!$user["following"]){
+				echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'id'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
+			}
+			elseif($user["following"]!="own"){
+				echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'0' )).'">Unfollow</a>';
+			}
 		?>
+	</div>
+</div>
+
+<div id="profile_data">
+	<?php 
+	echo $this->partial( 'time_line',array('response'=>$this->get_timeline_response) );
+	?>
 </div>
