@@ -22,7 +22,7 @@ class Api_UsersController extends MF_Controller{
 	
 	public function setSettingsAction(){
 		$request = MF_Request::getInstance();
-		$args = $request->getParams(); // TODO change to POST !!!!
+		$args = $request->getParamsPost();
 		$response = MF_ApiCaller::call('User', 'setSettings', $args);
 		$this->renderJSON( $response );
 	}
@@ -45,14 +45,14 @@ class Api_UsersController extends MF_Controller{
 	
 	public function registerAction(){
 		$request = MF_Request::getInstance();
-		$args = $request->getParams(); // TODO change to POST !!!!
+		$args = $request->getParamsPost();
 		$response = MF_ApiCaller::call('User', 'register', $args);
 		$this->renderJSON( $response );
 	}
 	
 	public function editAction(){
 		$request = MF_Request::getInstance();
-		$args = $request->getParams(); // TODO change to POST !!!!
+		$args = $request->getParamsPost();
 		$response = MF_ApiCaller::call('User', 'edit', $args);
 		$this->renderJSON( $response );
 	}

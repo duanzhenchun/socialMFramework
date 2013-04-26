@@ -2,3 +2,4 @@
 .settings/*
 .project
 apps_icons/*
+application/.config/Configuration.php
