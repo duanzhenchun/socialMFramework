@@ -6,20 +6,17 @@ class CommentTrigger extends MF_ActionTriggerAbstract{
 	}
 	
 	public function afterInsert(){
-		$user = $this->model->getParent('User');
 		$share = $this->model->getParent( 'Share' );
-		$application = $share->getParent( 'Application' );
 		
 		$data = array(
-			'application' => array( 'text'=>$application->application_name, 'package_name'=>$application->package_name, 'shared_id'=>$share->id ),
-			'user' => array( 'id'=>$user->id, 'text'=>$user->getFullName() ),
+			'shares_id' =>$share->id
 		);
 		
-		MF_FeedNotification::sendFeed($user, $data, 3);
+		MF_FeedNotification::sendFeed($this->model->users_id, $data, 3);
 		
-		$publisher = $share->getParent( 'User' );
-		if( $publisher->id != $user->id ){
-			MF_FeedNotification::sendNotification($publisher, $data, 2);
+		if( $share->users_id != $this->model->users_id ){
+			$user = $this->model->getParent( 'User' );
+			MF_FeedNotification::sendNotification($user, $data, 2);
 		}
 	}
 	

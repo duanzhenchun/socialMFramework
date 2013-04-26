@@ -48,7 +48,7 @@ class Application extends MF_Model{
 		if( $this->iconExists() ){
 			return "http://{$_SERVER['HTTP_HOST']}/".BASE_URL."/apps_icons/{$this->package_name}.png";
 		}
-		return '';
+		return "http://{$_SERVER['HTTP_HOST']}/".BASE_URL."/apps_icons/default.png";
 	}
 	
 	protected function iconExists(){

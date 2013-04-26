@@ -97,24 +97,33 @@
 			),
 		),
 		'NotificationType' => array(
-			'guest' => array()
+			'guest' => array(),
+			'user' => array(
+				'title'				=> 'attr'
+			)
 		),
 		'Notification' => array(
-			'guest' => array(
+			'guest' => array(),
+			'user' => array(
 				'created_at'		=> 'attr',
-				'text'				=> 'parceText',
+				'text'				=> 'getText',
+				'mentioned_user'	=> 'parent::User::MentionedUser',
 				'type'				=> 'parent::NotificationType',
 			),
 		),
 		'FeedType' => array(
-			'guest' => array()
+			'guest' => array(),
 		),
 		'Feed' => array(
-			'guest' => array(
+			'guest' => array(),
+			'user' => array(
 				'created_at'		=> 'attr',
 				'text'				=> 'getText',
 				'thumb'				=> 'getThumb',
 				'type'				=> 'parent::FeedType',
+				'share'				=> 'parent::Share',
+				'user'				=> 'parent::User::User',
+				'mentioned_user'	=> 'parent::User::MentionedUser',
 			),
 		),
 		

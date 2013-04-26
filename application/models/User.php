@@ -23,23 +23,27 @@ class User extends MF_Model{
 	
 	public function getFeeds( $from_id=false, $to_id=false, $only_own=false, $limit=20 ){
 		$auth = MF_Auth::getInstance();
-		$sql_condition = "WHERE (`f`.`excluded_user_id`!={$auth->user->id} OR `f`.`excluded_user_id` IS NULL) AND ((`f`.`users_id`={$this->id} AND `t`.`own_text` IS NOT NULL)";
+		$sql = "SELECT * FROM `feeds`";
+		$sql_condition = "WHERE ( `users_id`={$this->id} OR `mentioned_user_id`={$this->id} )";
 		if( !$only_own ){
 			$following = $this->getFollowings();
-			foreach( $following as $f ){
-				$sql_condition .= " OR (`f`.`users_id`={$f->id} AND `t`.`other_text` IS NOT NULL)";
+			if( count($following)>0 ){
+				$sql_condition .= "OR (";
+				foreach( $following as $k => $f ){
+					if( $k > 0 ) $sql_condition .= ' OR';
+					$sql_condition .= " (`users_id`={$f->id})";
+				}
+				$sql_condition .= ")";
 			}
 		}
-		$sql_condition .= ")";
 		if( $from_id ){
-			$sql_condition .= " AND (`f`.`id`>{$from_id})";
+			$sql_condition .= " AND (`id`>{$from_id})";
 		}
 		if( $to_id ){
-			$sql_condition .= " AND (`f`.`id`<{$to_id})";
+			$sql_condition .= " AND (`id`<{$to_id})";
 		}
 		$sql_limit = $from_id? "" : "LIMIT $limit";
 		$sql_order = "ORDER BY `created_at` DESC";
-		$sql = "SELECT `f`.* FROM `feeds` AS `f` INNER JOIN `feed_types` AS `t` ON `f`.`feed_types_id`=`t`.`id`";
 		$sql .= " ".$sql_condition;
 		$sql .= " ".$sql_order;
 		$sql .= " ".$sql_limit;
@@ -103,7 +107,7 @@ class User extends MF_Model{
 		if( $this->picture ){
 			return "http://{$_SERVER['HTTP_HOST']}/".BASE_URL."/pictures/{$this->id}/{$this->picture}";
 		}
-		return '';
+		return "http://{$_SERVER['HTTP_HOST']}/".BASE_URL."/pictures/default.png";
 	}
 	
 	public function getFollowing( $to ){

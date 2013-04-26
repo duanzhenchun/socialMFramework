@@ -14,7 +14,17 @@ class Notification extends MF_Model{
 			"column" => "users_id",
 			"refModel" => "User",
 			"refColumn" => "id",
-		)
+		),
+		"MentionedUser" => array(
+			"column" => "mentioned_user_id",
+			"refModel" => "User",
+			"refColumn" => "id",
+		),
+		"Share" => array(
+			"column" => "shares_id",
+			"refModel" => "Share",
+			"refColumn" => "id",
+		),
 	);
 	
 	public function __construct(){
@@ -27,32 +37,8 @@ class Notification extends MF_Model{
 		$this->save();
 	}
 	
-	public function parceTitle(){
+	public function getText(){
 		$type = $this->getParent( 'NotificationType' );
-		$data = json_decode( $this->serialized_data );
-		$title = $type->title;
-		foreach( $data as $k => $d ){
-			if( is_string($d) ){
-				$t = $d;
-			}else{
-				$t = $d->text;
-			}
-			$title = str_replace( "%{$k}%", $t, $title);
-		}
-	}
-	
-	public function parceText(){
-		$type = $this->getParent( 'NotificationType' );
-		$data = json_decode( $this->serialized_data );
-		$text = $type->text;
-		foreach( $data as $k => $d ){
-			if( is_string($d) ){
-				$t = $d;
-			}else{
-				$t = $d->text;
-			}
-			$text = str_replace( "%{$k}%", $t, $text);
-		}
-		return $text;
+		return $type->text;
 	}
 }

@@ -6,17 +6,14 @@ class ShareTrigger extends MF_ActionTriggerAbstract{
 	}
 	
 	public function afterInsert(){
-		$user = $this->model->getParent( 'User' );
-		$application = $this->model->getParent( 'Application' );
 		$data = array(
-			'application' => array( 'text'=>$application->application_name, 'package_name'=>$application->package_name, 'shared_id'=>$this->model->id )
+			'shares_id' =>$this->model->id
 		);
-		
-		MF_FeedNotification::sendFeed($user, $data, 2);
+		MF_FeedNotification::sendFeed($this->model->users_id, $data, 2);
 	}
 	
 	public function afterDelete(){
-		$user = $this->model->getParent( 'User' );
+		/*$user = $this->model->getParent( 'User' );
 		$application = $this->model->getParent( 'Application' );
 		$data = array(
 			'application' => array( 'text'=>$application->application_name, 'package_name'=>$application->package_name, 'shared_id'=>$this->model->id+"" )
@@ -27,7 +24,7 @@ class ShareTrigger extends MF_ActionTriggerAbstract{
 		$feed = new Feed();
 		if( $feed->selectFromSQL( $sql ) ){
 			$feed->delete();
-		}
+		}*/
 	}
 	
 }

@@ -11,7 +11,17 @@ class Feed extends MF_Model{
 			"column" => "users_id",
 			"refModel" => "User",
 			"refColumn" => "id",
-		)
+		),
+		"MentionedUser" => array(
+			"column" => "mentioned_user_id",
+			"refModel" => "User",
+			"refColumn" => "id",
+		),
+		"Share" => array(
+			"column" => "shares_id",
+			"refModel" => "Share",
+			"refColumn" => "id",
+		),
 	);
 	
 	public function __construct(){
@@ -21,63 +31,31 @@ class Feed extends MF_Model{
 	
 	public function getText(){
 		$auth = MF_Auth::getInstance();
-		if( $auth->isLogged() && $this->users_id==$auth->user->id || $this->feed_types_id==5 ){
-			return $this->parceOwnText();
-		}
-		return $this->parceOtherText();
-	}
-	
-	public function parseText( $text ){
-		$data = json_decode( $this->serialized_data );
-		foreach( $data as $k => $d ){
-			if( is_string($d) ){
-				$t = $d;
-			}else{
-				$t = $d->text;
-				$cont = "<span data-type=\"$k\"";
-				$object_vars = get_object_vars( $d );
-				foreach( $object_vars as $ko => $ov ){
-					if( $ko != 'text' ){
-						$cont .= " data-$ko=\"$ov\"";
-					}
-				}
-				$cont .= '>';
-				$t = $cont.$t.'</span>';
+		$type = $this->getParent( 'FeedType' );
+		if( $auth->isLogged() ){
+			if( $this->users_id==$auth->user->id ){
+				return $type->own_text;
+			}elseif( $this->mentioned_user_id==$auth->user->id ){
+				return $type->mentioned_text;
 			}
-			$text = str_replace( "%{$k}%", $t, $text);
 		}
-		$strpos = strpos( $text, "#user_fullname#");
-		if( $strpos !== false ){
-			$user = $this->getParent( 'User' );
-			$cont = "<span data-type=\"user\" data-id=\"{$user->id}\">".$user->getFullName().'</span>';
-			$user_name = $cont;
-			$text = str_replace( "#user_fullname#", $user_name, $text);
-		}
-		return $text;
-	}
-	
-	protected function parceOwnText(){
-		$type = $this->getParent( 'FeedType' );
-		return $this->parseText( $type->own_text );
-	}
-	
-	protected function parceOtherText(){
-		$type = $this->getParent( 'FeedType' );
-		return $this->parseText( $type->other_text );
+		return $type->other_text;
 	}
 	
 	public function getThumb(){
 		$type = $this->getParent( 'FeedType' );
 		$thumb = $type->thumb;
 		if( empty($thumb) ) return false;
-		$data = json_decode( $this->serialized_data );
-		if( $thumb == '%application%' ){
-			$application = new Application();
-			$application->select( $data->application->package_name, 'package_name' );
+		if( $thumb == '%application%' && $share = $this->getParent( 'Share' ) ){
+			$application = $share->getParent('Application');
 			return $application->getIconUrl();
 		}elseif( $thumb == '%user%' ){
-			$user = new User();
-			$user->select( $data->user->id );
+			$auth = MF_Auth::getInstance();
+			if( $this->mentioned_user_id ){
+				$user =  $auth->user->id==$this->mentioned_user_id? $this->getParent('User', 'User'):$this->getParent('User', 'MentionedUser');
+			}else{
+				$user =  $this->getParent('User', 'User');
+			}
 			return $user->getPictureUrl();
 		}
 	}
