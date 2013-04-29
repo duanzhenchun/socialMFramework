@@ -40,7 +40,7 @@ class MF_GooglePlayData{
 			$app_data['application_name'] = $app->getTitle();
 			$app_data['category'] = $app->getExtendedInfo()->getCategory();
 			$app_data['description'] = $description = preg_replace( "/\\n/", '<br />', $app->getExtendedInfo()->getDescription() );
-			$app_data['price'] = $app->getPrice();
+			$app_data['price'] = str_replace('US', '', $app->getPrice());
 			return $app_data;
 		}else{
 			return false;
