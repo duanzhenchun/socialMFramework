@@ -1,17 +1,20 @@
 <div class="logo_login"></div>
 <form action="?do=save" method="post" class="form_login">
-	<table>
+	<table cellspacing="5">
 <?php
 	$this->partial( 'flash_messages', array('flash_messages'=>$this->getFlashMessages()) );
 ?>
 		<tr>
-			<td class="label">
+			<td class="label" style="width:100px">
 				<label for="username">Username</label>
 			</td>
 			<td>
 				<input type="text" name="email" id="email" />
 			</td>
-		</tr><br />
+		</tr>
+		<tr>
+			<td colspan="2"><br /></td>
+		</tr>
 		<tr>
 			<td  class="label">
 				<label for="password">Password</label>
@@ -19,6 +22,9 @@
 			<td>
 				<input type="password" name="password" id="password" />
 			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><br /></td>
 		</tr>
 		<tr>
 			<td></td>

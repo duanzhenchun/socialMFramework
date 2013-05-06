@@ -20,14 +20,19 @@ var show_more_description = function(){
 	}); 
 }
 var list_shared_apps= function (){
+	$(".my_profile_apps_menu_link_shr").css("color", "#fff");
+	$(".my_profile_apps_menu_link_fav").css("color", "#377570");
 	$.ajax({
 	    url: base_url+'applications/listSharesProfile/',
 	    success: function(data) {
 	        $('#apps_in_profile_menu').html(data);
 	    }
 	}); 
-}
+}
+
 var list_favorites_apps= function (){
+	$(".my_profile_apps_menu_link_shr").css("color", "#377570");
+	$(".my_profile_apps_menu_link_fav").css("color", "#fff");
 	$.ajax({  
 	    url: base_url+'applications/listFavoritesProfile/',  
 	    success: function(data) {  
@@ -42,12 +47,23 @@ var load_followers_following= function (typef){
 	        $('#profile_data').html(data);  
 	    }  
 	}); 
-}var send_fav_action = function(shared_id,favorite){
-	var comment = $('#comment_input').attr("value"); 
+}var send_fav_action = function(shared_id,favorite,i){
+	var counter = parseInt($('.counter_'+i+':first').text());
 	$.ajax({  
 	    url: base_url+'applications/favorite/shared_id/'+shared_id+'/favorite/'+favorite, 
 	    success: function() {
-	    	alert("You mark the application how Favorite");
+	    	if(favorite == 1){
+	    		/*alert("You mark the application how Favorite");*/
+	    		$('#fav_icon_'+i).hide();
+	    		$('#unfav_icon_'+i).show();
+	    		$('.counter_'+i).text( ++counter );
+	    	}
+	    	else{
+	    		/*alert("You mark the application how UnFavorite");*/
+	    		$('#unfav_icon_'+i).hide();
+	    		$('#fav_icon_'+i).show();
+	    		$('.counter_'+i).text( --counter );
+	    	}
 	    }  
 	}); 
 }

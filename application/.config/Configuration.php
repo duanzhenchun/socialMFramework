@@ -51,8 +51,8 @@ class Configuration{
 		// set the database
 		define("DB_HOST", "localhost");
 		define("DB_USER", "root");
-		//define("DB_PASS", "");
-		define("DB_PASS", "ynpmnabsqs");
+		define("DB_PASS", "");
+		//define("DB_PASS", "ynpmnabsqs");
 		define("DB_NAME", "appsaway");
 		
 		define('GOOGLE_EMAIL','admin@ikongroup.net');

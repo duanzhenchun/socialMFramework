@@ -2,7 +2,7 @@ body{
 	font-family: verdana, arial, serif;
 	font-size: 12pt;
 	color: #000;
-	background: #3f8c84;
+	background: #3f8c84 url("img/back_sections.png") repeat-x;
 	margin: 0;
 	padding: 0;
 }
@@ -20,7 +20,7 @@ table tr td{
 @media screen and (min-width:980px) {
 	#wrapper{
 		width: 980px;
-		margin: 0 auto;
+		margin: 30 auto;
 		height:auto;
 		padding: 5px;
 	}
@@ -119,6 +119,7 @@ div.error_message{
 	height: 180px;
 	background: url("img/logo.png") no-repeat;
 	margin:auto;
+	margin-top: 50px;
 }
 .image_home{
 	background: url("img/image_home.png");
@@ -199,28 +200,29 @@ div.error_message{
 }
 .form_login table tr td input[type=text], .form_login table tr td input[type=password]{
 	width: 100%;
-	height: 35px;
+	height: 40px;
 	background: #7ac5be !important;
 	padding-left: 20px;
 	border:none; 
 }
 .form_login table tr td input:hover, .form_login table tr td input:focus, .form_login table tr td input:autofill {
 	width: 100;
-	height: 35px;
+	height: 40px;
 	background: #7ac5be !important;
 	padding-left: 20px;
 	border:none;
 }
 .form_login_submit_button {
 	width: 100%;
-	height: 35px;
+	height: 40px;
 	background: #367771 !important;
 	border:none; 
 	color:#fff;
 }
 /* CONTENTS STYLES*/
 #left_column{
-	
+	width:30%;
+	float: left;
 }
 .user_menu{
 	border-top: 8px solid #fff;
@@ -241,12 +243,11 @@ div.error_message{
 	background: #ffcc66;
 }
 .profile_detail{
-	width: 25%;
 	float:left;
 	margin-top:140px;
 	background: #7AC5BD;
 	margin-right: 15px;
-	padding: 1%;
+	padding: 2%;
 }
 .profile_detail_user{
 	float: left; 
@@ -284,7 +285,7 @@ div.error_message{
 	font-size: 12px;
 	width:30%;
 	float:left;
-	height: 50px;
+	height: 60px;
 	text-align: center;
 }
 .profile_box_sff:hover{
@@ -309,6 +310,7 @@ div.error_message{
 .profile_box_sff_number{
 	font-size: 20px;
 	margin: 0;
+	margin-top: 10px
 }
 .smal_profile_image{
 	width: 50px;
@@ -328,12 +330,12 @@ div.error_message{
 }
 .my_profile_apps_menu a{
 	text-decoration: none;
-	color:#fff;
+	color:#377570;
 	font-size: 12px;
 }
 .my_profile_apps_menu a:hover{
 	text-decoration: none;
-	color:#377570;
+	color:#fff;
 	font-size: 12px;
 }
 
@@ -353,9 +355,10 @@ div.error_message{
 }
 #apps_in_profile_menu{
 	width: 100%;
-	min-height:250px; 
+	height:250px; 
 	padding-top: 20px;
 	color:#fff;
+	overflow-y: scroll;
 }
 .profile_apps{
 	width: 680px;
@@ -379,7 +382,8 @@ div.error_message{
 	float:left;
 	color: #377570 ;
 	padding-left: 10px;
-	padding-top: 15px;
+	padding-top: 5px;
+	width: 70%;
 }
 .app_box_description_actions{
 	margin-top: 10px;
@@ -442,7 +446,7 @@ div.error_message{
 	margin-right: 10px;
 }
 #profile_data{
-	width:70%;
+	width:65%;
 	float: left;
 }
 .sub_menu {
@@ -505,9 +509,8 @@ div.error_message{
 	border-radius: 10px;
 }
 .friend_profile_image{
-	width: 100px;
-	height: 100px;
-	margin: 10px;
+	width: 50px;
+	height: 50px;
 }
 /* SECTION newsfeed*/
 .notification_box{
@@ -527,29 +530,113 @@ div.error_message{
 	width: 100%;
 	background:#57A29A;
 	float: left;
+	padding-bottom: 5px;
 }
 .notification_box_tl{
 	width: 88%;
 	height: 60px;
 	margin: 5px;
+	margin-bottom: 0px;
 	padding: 10px 5%;
 	background:#DAE9E8;
 	float:left;
 	color: #35786F;
 }
+.notification_box_tl img{
+	float:left;
+}
 .notification_box_tl_text{
-	float: right;
-	width:85%;
+	width:100%;
 	margin-top: 20px;
+	margin-left: 10px;
 }
 .notification_box_tl_text a{
 	color: #35786F;
 	text-decoration: none;
 	float: left;
+	margin-left: 10px;
 }
 .notification_box_tl_text p{
-	font-size: 10px;
+	font-size: 14px;
+	float: left;
+	margin: 0;
+	margin-left: 10px;
+}
+
+/* NOTIFICACION BOX DETAIL TIME LINE*/
+.notification_box_detail_tl{
+	width: 73%;
+	height: 65px;
+	margin-right: 8px;
+	margin-top: 1px;
+	padding: 10px 5%;
+	background:#7AC5BD;
+	float:right;
+	text-align:left;
+	color: #35786F;
+	/*display: none;*/
+	display: block;
+}
+.notification_box_tl_detail_text{
+	width:55%;
+	margin-left: 25px;
+	float: left;
+}
+.notification_box_tl_detail_text a{
+	color: #35786F;
+	text-decoration: none;
+	float: left;
+}
+.notification_box_tl_detail_text p{
+	font-size: 14px;
+	float: left;
+	margin: 0;
+}
+.notification_box_detail_tl img{
+	float:left;
+}
+
+.notification_box_tl_detail_price{
+	margin:0;
+	background: #357770;
+	width: 11%;
+	height: 60px;
 	float: right;
+	display: inline;
+	padding: 5px 12px;
+	text-align: center;
+}
+.notification_box_tl_detail_price p{
+	color:#fff;
+	margin: 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+.notification_box_tl_detail_price img{
+	width: 21px;
+	height:32px;
+	float: none;
+	margin-top:5px;
+}
+
+/* NOTIFICACION BOX USER TIME LINE*/
+.notification_box_tl_user_text{
+	float: right;
+	width:85%;
+}
+.notification_box_tl_user_text a{
+	color: #35786F;
+	text-decoration: none;
+	float: left;
+}
+.notification_box_tl_user_text p{
+	font-size: 14px;
+	float: left;
+	margin: 0;
+}
+.time_indicator{
+	font-size: 10px !important;
+	float: right !important;
 	margin: 0;
 }
 .app_description{
@@ -557,7 +644,7 @@ div.error_message{
     height:50px;
     overflow:hidden;
 }
-/**/
+/*  */
 #comment_input{
 	width: 390px;
 	height: 150px;

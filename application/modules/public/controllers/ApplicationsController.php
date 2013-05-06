@@ -41,13 +41,23 @@ class ApplicationsController extends MF_Controller{
 		$response = MF_ApiCaller::call('Application', 'share', $args);
 		$this->view->response= $response ;
 	}
+	public function unshareAction(){
+		$this->disableLayout();
+		$request = MF_Request::getInstance();
+		$args = array();
+		$args['package_name'] = $request->getParam( 'package_name', false );
+		$response = MF_ApiCaller::call('Application', 'unshare', $args);
+		$this->view->response= $response ;
+	}
 	public function favoriteAction(){
 		$this->disableLayout();
 		$request = MF_Request::getInstance();
 		$args = array();
 		$args['shared_id'] = $request->getParam( 'shared_id', false );
 		$args['favorite'] = $request->getParam( 'favorite', false );
+		//var_dump($args);
 		$response = MF_ApiCaller::call('Favorite', 'changeStatus', $args);
-		$this->view->response= $response ;
+		//var_dump($response);
+		$this->renderJSON( $response );
 	}
 }

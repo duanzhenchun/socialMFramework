@@ -43,14 +43,13 @@
 				<tr>
 					<td><p>My apps</p></td>
 					<td>         </td>
-					<td><a href="javascript:void(0);" onclick="list_shared_apps();" >Shared </a></td>
-					<td><a href="javascript:void(0);" onclick="list_favorites_apps();" >Favorites </a></td>
+					<td><a href="javascript:void(0);" onclick="list_shared_apps();" class="my_profile_apps_menu_link_shr">Shared </a></td>
+					<td><a href="javascript:void(0);" onclick="list_favorites_apps();" class="my_profile_apps_menu_link_fav">Favorites </a></td>
 				</tr>
 				<tr>
 					<td colspan="4">
 						<div id="apps_in_profile_menu">
 						</div>
-						<a href="#">see all</a>
 					</td>
 				</tr>
 			</table>
@@ -71,3 +70,9 @@
 	echo $this->partial( 'time_line',array('response'=>$this->get_timeline_response) );
 	?>
 </div>
+
+<script>
+$(document).ready(function() {
+  list_shared_apps();
+});
+</script>

@@ -1,6 +1,6 @@
 <?php echo '<h2>'.$this->title.'</h2>'?>
 <?php 
-	if($this->follow){
+/*	if($this->follow){
 		//var_dump($this->follow);
 		foreach($this->follow["users"] as $user){
 			?>
@@ -31,4 +31,41 @@
 	else{
 		echo 'you dont have followers or your not following anybody';
 	}
+
+ */
+?>
+
+<?php 
+	if($this->follow){
+		//var_dump($this->follow);
+		foreach($this->follow["users"] as $user){
+		?>
+		<div class="time_line_profile">
+			<div class="notification_box_tl">
+				<img src="<?php echo $user["picture"]; ?>" class="friend_profile_image" />
+				<div class="notification_box_tl_user_text" >
+					<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'index','id'=>$user["id"]));?>"><?php echo $user["first_name"].' '.$user["last_name"];?></a><br />
+					<?php echo 'Followers '.$user["followers_counter"].' - Favorites '.$user["favorites_counter"].' - Shared apps '.$user["shares_counter"];?>
+					<div class="notification_box_tl_actions">
+					<?php 
+						$follow = MF_ApiCaller::call('User', 'follow');
+						//var_dump($follow);
+						if(!$user["following"]){
+							echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'1' )).'">follow</a>';	
+						}
+						elseif($user["following"]!="own"){
+							echo '<a href="'.$this->getUrl( array('controller'=>'users', 'action'=>'follow', 'user'=>$user["id"], 'follow'=>'0' )).'">Unfollow</a>';
+						}
+					?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php 
+		}
+	}
+	else{
+		echo 'you dont have followers or your not following anybody';
+	}
+
 ?>

@@ -15,10 +15,16 @@
 						</div>
 						<div class="app_title">
 							<?php echo $app_data["application_name"]; ?>
-							<!--<div class="app_box_description_icons">
-								<?php echo "1". 'Favs' ;?>
-								<?php echo "1". 'Comments';?> 
-								<?php echo "1". 'Shareds';?> 		
+							<!--<div class="app_box_description_icons" >
+								<?php echo "1";
+								if(!$app["is_favorite"]){
+									echo '<a href="javascript:void(0);" onclick="send_fav_action('.$app["id"].',1);">Favs</a>' ;
+								}
+								else{
+									echo '<a href="javascript:void(0);" onclick="send_fav_action('.$app["id"].',0);">UnFav</a>' ;
+								}?>
+								<?php echo "1". 'Cmt';?> 
+								<?php echo $app_data["shares_counter"].'Shr';?> 		
 							</div>-->
 						</div>
 				</div>
