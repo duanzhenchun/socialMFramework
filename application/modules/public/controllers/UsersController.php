@@ -2,12 +2,10 @@
 class UsersController extends MF_Controller{
 	
 	public function _init(){
-		//$this->bridge = new UsersBridge();
 	}
+	
 	public function indexAction(){
-		/*$time_line = MF_ApiCaller::call('User', 'listTimeline');
-		$this->view->response = $time_line;*/
-			$auth = MF_Auth::getInstance();
+		$auth = MF_Auth::getInstance();
 		if($auth->isLogged()){
 			$request = MF_Request::getInstance();
 			$args = $request->getParams();
@@ -21,10 +19,10 @@ class UsersController extends MF_Controller{
 			$this->redirect( array('controller'=>'auth', 'action'=>'login') );
 		}
 	}	
-	public function getTimelineAction(){
+	/*public function getTimelineAction(){
 		$time_line = MF_ApiCaller::call('User', 'listTimeline');
 		$this->view->response = $time_line ;
-	}	
+	}*/	
 	public function followAction(){
 		$request = MF_Request::getInstance();
 		$args = $request->getParams();

@@ -1,37 +1,61 @@
 <div class="time_line_profile">
 	<?php
 	foreach( $this->response["feeds"] as $i => $feed){
-	 	//var_dump($feed["share"]["application"]);
 		?>
+		<!-- function time calculated-->		
+		<?php 											 
+		    $periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+		    $lengths         = array("60","60","24","7","4.35","12","10");
+		    $now             = time();
+		    $unix_date         = strtotime($feed["created_at"]);
+		    	// check validity of date
+		    if(empty($unix_date)) {    
+		        $time = "Bad date";
+		    }
+			    // is it future date or past date
+		    if($now > $unix_date) {    
+		        $difference     = $now - $unix_date;
+		        $tense         = "ago";
+		    } else {
+		        $difference     = $unix_date - $now;
+		        $tense         = "from now";
+		    }
+		    for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+		        $difference /= $lengths[$j];
+		    }
+		    $difference = round($difference);
+		    if($difference != 1) {
+		        $periods[$j].= "s";
+		    }
+		    $time = "$difference $periods[$j] {$tense}";
+			
+		 ?>		
+		<!-- end function time--->
 		
-		<?php if($feed["type"]["id"]=="1"){ 
-			$feed_text = str_replace('%user%', $feed["user"]["first_name"].' '.$feed["user"]["last_name"], $feed["text"]);
-			$feed_text = str_replace('%mentioned%', $feed["mentioned_user"]["first_name"].' '.$feed["mentioned_user"]["last_name"], $feed_text);
+				
+		<?php if($feed["type"]["id"]=="1"){
+			//var_dump($feed["created_at"]);  
+			$feed_text = str_replace('%user%', '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["user"]["id"]) ).' ">'.$feed["user"]["first_name"].' '.$feed["user"]["last_name"].'</a>', $feed["text"]);
+			$feed_text = str_replace('%mentioned%', '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["mentioned_user"]["id"]) ).' ">'.$feed["mentioned_user"]["first_name"].' '.$feed["mentioned_user"]["last_name"].'</a>', $feed_text);
 			?>
 			<div class="notification_box_tl">
-				<img src="<? echo $feed["thumb"] ;?>" width="60px">
+				<img src="<?php echo $feed["thumb"] ;?>" width="60px">
 				<div class="notification_box_tl_text" id="notification_box_tl_text_<? echo $i;?>">
-					<?php if($feed["type"]["id"]!="1"){ ?>
-						<p>
-					<? } 
-					echo $feed_text; 
-					?></p>
-					<p class="time_indicator">1 hour ago</p>
+					<p><?php echo $feed_text;?></p>
+					<p class="time_indicator"><?php echo $time;?></p>
 				</div>
 			</div>
-		<?}else{ 
-			$feed_text = str_replace('%user%', $feed["user"]["first_name"].' '.$feed["user"]["last_name"], $feed["text"]);
+		<?}else{
+			$feed_text = str_replace('%user%',  '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["user"]["id"]) ).' ">'.$feed["user"]["first_name"].' '.$feed["user"]["last_name"].'</a>', $feed["text"]);
 			$feed_text = str_replace('%application%', $feed["share"]["application"]["application_name"], $feed_text);
 			?>
 			<div class="notification_box_tl">
 				<img src="<? echo $feed["thumb"] ;?>" width="60px">
 				<div class="notification_box_tl_text" id="notification_box_tl_text_<? echo $i;?>">
-					<?php if($feed["type"]["id"]!="1"){ ?>
-						<a href="javascript:void(0);" onclick="openFeddDetail(<? echo $i;?>);">
-					<? } 
-					echo $feed_text; 
-					?></a>
-					<p class="time_indicator">1 hour ago</p>
+					
+					<p><?php echo $feed_text; ?></p>
+					
+					<p class="time_indicator"><?php echo $time;?><br /><br /><br /> <a href="javascript:void(0);" onclick="openFeddDetail(<? echo $i;?>);" id="openFeddDetailIcon<? echo $i;?>"> << </a></p>
 				</div>
 			</div>
 			<div class="notification_box_detail_tl" id="notification_box_detail_tl<? echo $i;?>">
@@ -48,12 +72,15 @@
 					   }
 					   echo '<a href="javascript:void(0);" id="fav_icon_'.$i.'" onclick="send_fav_action('.$feed["share"]["id"].',1,'.$i.')"  style="display:'.$fav_display.'">
 					  		<span class="counter_'.$i.'">'.$feed["share"]["favorites_counter"].'</span>
-					   		<img src="'.$this->getUrl('css/img/fav_icon_12_10.png').'" style="float: none;"></a>' ;
+					   		favorite </a>';
+					   		/*<img src="'.$this->getUrl('css/img/fav_icon_12_10.png').'" style="float: none;"></a>' ;**/
 					   echo '<a href="javascript:void(0);" id="unfav_icon_'.$i.'" onclick="send_fav_action('.$feed["share"]["id"].',0,'.$i.')" style="display:'.$unfav_display.'">
-							<span class="counter_'.$i.'">'.$feed["share"]["favorites_counter"].'</span>
-							<img src="'.$this->getUrl('css/img/un_fav_icon_12_10.png').'" style="float: none;"></a>' ;
-					   echo '<p>  | '.$feed["share"]["application"]["shares_counter"].'<img src="'.$this->getUrl("css/img/share_icon_13_10.png").'" style="float: none;"></p>'; 
-					   echo '<p>  | '.$feed["share"]["comments_counter"].'Comment</p>'; ?>
+							<span class="counter_'.$i.'">'.$feed["share"]["favorites_counter"].'</span> Unfavorite </a>';
+							/*<img src="'.$this->getUrl('css/img/un_fav_icon_12_10.png').'" style="float: none;"></a>' ;*/
+					   echo '<p>  | '.$feed["share"]["application"]["shares_counter"].'
+					   Shares</p>';
+					   	/*<img src="'.$this->getUrl("css/img/share_icon_13_10.png").'" style="float: none;"></p>';*/ 
+					   echo '<p> |'.$feed["share"]["comments_counter"].' </p> <a href="#">Comment</a>'; ?>
 				</div>
 				<a href="https://play.google.com/store/apps/details?id=<?php echo $feed["share"]["application"]["package_name"];?>" target="_blank">
 				<div class="notification_box_tl_detail_price" >

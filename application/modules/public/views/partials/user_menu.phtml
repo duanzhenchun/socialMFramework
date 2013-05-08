@@ -1,0 +1,17 @@
+<?php
+	$auth = MF_Auth::getInstance();
+	if( $auth->isLogged() ):
+?>
+	<div id="user_menu">
+		<a href="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'index') ); ?>" >	Profile	</a>
+		<a href="javascript:void(0);" onclick="user_edit_action();">Edit</a>
+		<!--<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'index') ); ?>">My Apps</a>-->
+		<a href="<?php echo $this->getUrl( array('controller'=>'auth', 'action'=>'logout') ); ?>">Logout</a>
+	</div>
+<?php
+	else:
+?>
+		<!-- Menu for unlogued users -->
+<?php
+	endif;
+?>

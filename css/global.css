@@ -6,6 +6,10 @@ body{
 	margin: 0;
 	padding: 0;
 }
+h2{
+	color: #DAE9E8;
+	margin-top: 0;
+}
 table{
 	border-collapse:collapse;
 	border:none;
@@ -55,7 +59,25 @@ table tr td{
 		width: auto;
 	}
 }
-
+#main_user_menu{
+	background:##357770;
+}
+#user_menu{
+	width: 980px;
+	margin:auto;
+	padding-left: 550px;
+	padding-top: 10px;
+}
+#user_menu a{
+	color:#DAE9E8;
+	text-decoration: none;
+	margin: 0 20px;
+}
+#user_menu a:hover{
+	color:#DAE9E8;
+	text-decoration: underline;
+	margin: 0 20px;
+}
 #main_menu{
 	padding: 10px 0;
 }
@@ -258,11 +280,16 @@ div.error_message{
 .profile_detail_user p{
 	text-decoration: none;
 	color:#377570;
-	margin:0 0 20px 0;
+	margin:10px 0 10px 0;
 	font-size: 17px;
 }
 .profile_detail_user a{
 	text-decoration: none;
+	color:#fff;
+	font-size: 12px;
+}
+.profile_detail_user a:hover{
+	text-decoration: underline;
 	color:#fff;
 	font-size: 12px;
 }
@@ -446,7 +473,7 @@ div.error_message{
 	margin-right: 10px;
 }
 #profile_data{
-	width:65%;
+	width:70%;
 	float: left;
 }
 .sub_menu {
@@ -490,11 +517,42 @@ div.error_message{
 }
 .edit_profile_form {
 	background: transparent;
+	color: #fff;
+	padding-left: 50px;
+}
+.edit_profile_form table{
+	color: #fff;
+}
+.edit_profile_form table a{
+	color: #fff;
+	text-decoration: none;
+}
+.edit_profile_form table a:hover{
+	color: #fff;
+	text-decoration: underline;
+}
+.edit_profile_form input[type="text"]{
+	width: 60%;
+	background: #7AC5BD;
+	border: none;
+	height: 30px;
+	padding: 0 20px;
+	margin: 5px 0px;
+	color: #fff;
+}
+.edit_profile_form label{
+	width: 20%;
+	color: #fff;
+}
+.edit_profile_form textarea{
+	width: 60%;
+	background: #7AC5BD;
+	border: none;
+	margin: 5px 0px;
+	padding: 10px 20px;
+	color: #fff;
 }
 
-.edit_profile_form table{
-	background: transparent;
-}
 /* SECTION MY FOLLOWERS*/
 .follower_box{
 	width: 300px;
@@ -546,21 +604,21 @@ div.error_message{
 	float:left;
 }
 .notification_box_tl_text{
-	width:100%;
+	width:85%;
+	float:left;
 	margin-top: 20px;
 	margin-left: 10px;
 }
 .notification_box_tl_text a{
 	color: #35786F;
 	text-decoration: none;
-	float: left;
-	margin-left: 10px;
+	/*float: left;*/
 }
 .notification_box_tl_text p{
 	font-size: 14px;
 	float: left;
 	margin: 0;
-	margin-left: 10px;
+	max-width: 80%;
 }
 
 /* NOTIFICACION BOX DETAIL TIME LINE*/
@@ -585,6 +643,11 @@ div.error_message{
 .notification_box_tl_detail_text a{
 	color: #35786F;
 	text-decoration: none;
+	float: left;
+}
+.notification_box_tl_detail_text a:hover{
+	color: #35786F;
+	text-decoration: underline;
 	float: left;
 }
 .notification_box_tl_detail_text p{

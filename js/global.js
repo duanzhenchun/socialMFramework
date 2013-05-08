@@ -19,22 +19,26 @@ var show_more_description = function(){
 	    }
 	}); 
 }
-var list_shared_apps= function (){
+var list_shared_apps= function (user){
 	$(".my_profile_apps_menu_link_shr").css("color", "#fff");
 	$(".my_profile_apps_menu_link_fav").css("color", "#377570");
 	$.ajax({
 	    url: base_url+'applications/listSharesProfile/',
+     	data: 'user='+user,
+		type:'POST',
 	    success: function(data) {
 	        $('#apps_in_profile_menu').html(data);
 	    }
 	}); 
 }
 
-var list_favorites_apps= function (){
+var list_favorites_apps= function (user){
 	$(".my_profile_apps_menu_link_shr").css("color", "#377570");
 	$(".my_profile_apps_menu_link_fav").css("color", "#fff");
 	$.ajax({  
 	    url: base_url+'applications/listFavoritesProfile/',  
+	    data: 'user='+user,
+		type:'POST',
 	    success: function(data) {  
 	        $('#apps_in_profile_menu').html(data);  
 	    }  
@@ -88,8 +92,10 @@ var openFeddDetail = function(i,show){
 	
 	if($('#notification_box_detail_tl'+i).css('display') == 'none'){
 		$('#notification_box_detail_tl'+i).show();
+		$('#openFeddDetailIcon'+i).text("<<");		
 	}
 	else{
 		$('#notification_box_detail_tl'+i).css("display", "none");
+		$('#openFeddDetailIcon'+i).text(">>");
 	}
 }

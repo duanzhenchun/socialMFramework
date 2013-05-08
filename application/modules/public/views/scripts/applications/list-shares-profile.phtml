@@ -1,35 +1,22 @@
 <?php
 	//var_dump($this->response);
-	$apps = $this->response["shares"];
-	if($apps){
+	if($this->response["shares"]){
+		$apps = $this->response["shares"];
 		foreach( $apps as $app){
 			$app_data =$app["application"];
 			//var_dump($app);		
 ?>		
 				<div class="app_box">
-					<!--<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'getData', 'shared_id'=> $app_data["shared_id"], 'package_name' =>$app_data["package_name"] )); ?>">-->
 					<a href="#">
 						<div class="app_image">
 							<img src="<?php echo $app_data["icon"]; ?>">
 						</div>
 						<div class="app_title">
 							<?php echo $app_data["application_name"]; ?>
-							<!--<div class="app_box_description_icons" >
-								<?php echo "1";
-								if(!$app["is_favorite"]){
-									echo '<a href="javascript:void(0);" onclick="send_fav_action('.$app["id"].',1);">Favs</a>' ;
-								}
-								else{
-									echo '<a href="javascript:void(0);" onclick="send_fav_action('.$app["id"].',0);">UnFav</a>' ;
-								}?>
-								<?php echo "1". 'Cmt';?> 
-								<?php echo $app_data["shares_counter"].'Shr';?> 		
-							</div>-->
 						</div>
 					</a>
 				</div>
-<?php 	}
-		
+<?php 	}		
 	} 
 	else{
 		echo "Dont Shares";

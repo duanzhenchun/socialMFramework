@@ -8,20 +8,15 @@ class ApplicationsController extends MF_Controller{
 		//$this->view->javascript = "show_shared_apps();";
 	}
 	public function getDataAction(){
-		/*$request = MF_Request::getInstance();
-		$package_name = $request->getParam( 'package_name', false );
-		$shared_id = $request->getParam( 'shared_id', false );
-		$this->view->shared_id=$shared_id;
-		$response = $this->bridge->getData( $package_name, $shared_id );
-		$this->view->response = $response ;*/
 	}
 	
 	public function listSharesProfileAction(){
 		$this->disableLayout();
 		$request = MF_Request::getInstance();
 		$args = array();
-		$args['user_id'] = $request->getParam( 'user', 'me' );
+		$args['user'] = $request->getParam( 'user', 'me' );
 		$response = MF_ApiCaller::call('Application', 'listShares', $args);
+		//var_dump($response);
 		$this->view->response= $response ;
 	}
 	public function listFavoritesProfileAction(){

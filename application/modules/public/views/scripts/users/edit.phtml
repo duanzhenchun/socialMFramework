@@ -3,16 +3,17 @@
 $user_data = $this->response["user"];	
 ?>
 <form action="<?php echo $this->getUrl( array('controller'=>'users', 'action'=>'edit', 'edit'=>'ok' )); ?>" method="post" class="edit_profile_form">
-	<table style="width: 80%;">
+	<table style="width: 100%;">
 		<tr >
-			<td colspan="9">
+			<td></td>
+			<td>
 				<img src="<?php echo $user_data["picture"];?>" class="profile_image">
 				<a href="#">Change picture</a>
 			</td>
 		</tr>
 		
 		<tr>
-			<td><label>Name</label></td>
+			<td style="width: 25%;"><label>Name</label></td>
 			<td><input type="text" name="name" value="<?php echo $user_data["first_name"].' '.$user_data["last_name"];?>"></td>
 		</tr>
 		<tr>
