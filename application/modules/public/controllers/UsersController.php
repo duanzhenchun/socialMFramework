@@ -12,28 +12,32 @@ class UsersController extends MF_Controller{
 			$args['user'] = $request->getParam( 'id', 'me' );			
 			$user = MF_ApiCaller::call('User', 'getData', $args);
 			$this->view->response = $user;
-			
-			$more_feeds = $request->getParam( 'more_feeds');
-			if($more_feeds=="true"){
-				$this->disablelayout();
-				$args['$to_id'] = "2";	
-				$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
-				$this->view->get_timeline_response = $get_timeline_response ;	
-			}
-			else{
-				$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
-				$this->view->get_timeline_response = $get_timeline_response ;				
-			}
-			
+			//$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
+			//$this->view->get_timeline_response = $get_timeline_response ;		
 		}
 		else{ 
 			$this->redirect( array('controller'=>'auth', 'action'=>'login') );
 		}
 	}	
-	/*public function getTimelineAction(){
-		$time_line = MF_ApiCaller::call('User', 'listTimeline');
-		$this->view->response = $time_line ;
-	}*/	
+	public function get_time_lineAction(){
+		$this->disablelayout();
+		$request = MF_Request::getInstance();
+		$args = $request->getParams();
+		$args['user'] = $request->getParam( 'id', 'me' );	
+		$more_feeds = $request->getParam( 'more_feeds');
+		if($more_feeds=="true"){
+			$args['$to_id'] = "2";	
+			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
+			$this->view->get_timeline_response = $get_timeline_response ;
+			$response_feeds = $get_timeline_response;	
+		}
+		else{
+			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
+			$this->view->get_timeline_response = $get_timeline_response ;
+			$response_feeds = $get_timeline_response;				
+		}
+		$this->view->response_feeds=$response_feeds;
+	}
 	public function followAction(){
 		$request = MF_Request::getInstance();
 		$args = $request->getParams();

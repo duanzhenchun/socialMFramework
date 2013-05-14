@@ -1,13 +1,9 @@
 <div class="time_line_profile"  id="time_line_profile">
 	<?php
-	if($response_feeds){
-		//var_dump($this->response_feeds["feeds"]);exit;
-		echo"<br /><br />--------///////////////--------------------<br /><br /><br /><br />";
-	}
-	else{
-		echo"<br /><br />----------------------------<br /><br /><br /><br />";
-	}
-	foreach( $this->response["feeds"] as $i => $feed){
+	
+	foreach( $this->response_feeds  as $feeds){
+		var_dump ($feeds);
+		foreach($feeds  as $i =>$feed){
 		?>
 		<!-- function time calculated-->		
 		<?php 											 
@@ -104,6 +100,7 @@
 			</div>
 			</a>
 		
+		<?} ?>
 		<?} ?>
 	<?}?>
 </div>

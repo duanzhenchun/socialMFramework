@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(function(){
 	$('#time_line_profile').scrollPagination({
-		'contentPage': '<?php echo $this->getUrl( array("controller"=>"users", "action"=>"index2","more_feeds"=>"true" )); ?>', // the url you are fetching the results
+		'contentPage': '<?php echo $this->getUrl( array("controller"=>"users", "action"=>"get_time_line","more_feeds"=>"true" )); ?>', // the url you are fetching the results
 		'contentData': {}, // these are the variables you can pass to the request, for example: children().size() to know which page you are
 		'scrollTarget': $(window), // who gonna scroll? in this example, the full window
 		'heightOffset': 10, // it gonna request when scroll is 10 pixels before the page ends
@@ -31,106 +31,7 @@ $(function(){
 });
 </script>
 <div class="time_line_profile"  id="time_line_profile">
-	<?php
-	foreach( $this->response["feeds"] as $i => $feed){
-		?>
-		<!-- function time calculated-->		
-		<?php 											 
-		    $periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
-		    $lengths         = array("60","60","24","7","4.35","12","10");
-		    $now             = time();
-		    $unix_date         = strtotime($feed["created_at"]);
-		    	// check validity of date
-		    if(empty($unix_date)) {    
-		        $time = "Bad date";
-		    }
-			    // is it future date or past date
-		    if($now > $unix_date) {    
-		        $difference     = $now - $unix_date;
-		        $tense         = "ago";
-		    } else {
-		        $difference     = $unix_date - $now;
-		        $tense         = "from now";
-		    }
-		    for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-		        $difference /= $lengths[$j];
-		    }
-		    $difference = round($difference);
-		    if($difference != 1) {
-		        $periods[$j].= "s";
-		    }
-		    $time = "$difference $periods[$j] {$tense}";
-			
-		 ?>		
-		<!-- end function time--->
-		
-				
-		<?php if($feed["type"]["id"]=="1"){
-			//var_dump($feed["created_at"]);  
-			$feed_text = str_replace('%user%', '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["user"]["id"]) ).' ">'.$feed["user"]["first_name"].' '.$feed["user"]["last_name"].'</a>', $feed["text"]);
-			$feed_text = str_replace('%mentioned%', '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["mentioned_user"]["id"]) ).' ">'.$feed["mentioned_user"]["first_name"].' '.$feed["mentioned_user"]["last_name"].'</a>', $feed_text);
-			?>
-			<div class="notification_box_tl">
-				<img src="<?php echo $feed["thumb"] ;?>" width="60px">
-				<div class="notification_box_tl_text" id="notification_box_tl_text_<? echo $i;?>">
-					<p><?php echo $feed_text;?></p>
-					<p class="time_indicator"><?php echo $time;?></p>
-				</div>
-			</div>
-		<?}else{
-			$feed_text = str_replace('%user%',  '<a href="'.$this->getUrl( array("controller"=>"users", "action"=>"index", "id"=> $feed["user"]["id"]) ).' ">'.$feed["user"]["first_name"].' '.$feed["user"]["last_name"].'</a>', $feed["text"]);
-			$feed_text = str_replace('%application%', $feed["share"]["application"]["application_name"], $feed_text);
-			?>
-			<div class="notification_box_tl">
-				<img src="<? echo $feed["thumb"] ;?>" width="60px">
-				<div class="notification_box_tl_text" id="notification_box_tl_text_<? echo $i;?>">
-					
-					<p><?php echo $feed_text; ?></p>
-					
-					<p class="time_indicator"><?php echo $time;?><br /><br /><br /> <a href="javascript:void(0);" onclick="openFeddDetail(<? echo $i;?>);" id="openFeddDetailIcon<? echo $i;?>"> << </a></p>
-				</div>
-			</div>
-			<div class="notification_box_detail_tl" id="notification_box_detail_tl<? echo $i;?>">
-				<img src="<? echo $feed["thumb"] ;?>" width="60px">
-				<div class="notification_box_tl_detail_text" >
-					<? echo '<a href="https://play.google.com/store/apps/details?id='.$feed["share"]["application"]["package_name"].'" target="_blank">'.$feed["share"]["application"]["application_name"].'</a><br />'; ?>
-					<? echo '<p style="color:#fff;">'.$feed["share"]["application"]["category"]["description"].'</p><br />'; ?>
-					<? if($feed["share"]["is_favorite"]){
-						$fav_display = "none";
-						$unfav_display = "";
-					   }else{
-					   	$fav_display = "";
-						$unfav_display = "none";
-					   }
-					   echo '<a href="javascript:void(0);" id="fav_icon_'.$i.'" onclick="send_fav_action('.$feed["share"]["id"].',1,'.$i.')"  style="display:'.$fav_display.'">
-					  		<span class="counter_'.$i.'">'.$feed["share"]["favorites_counter"].'</span>
-					   		favorite </a>';
-					   		/*<img src="'.$this->getUrl('css/img/fav_icon_12_10.png').'" style="float: none;"></a>' ;**/
-					   echo '<a href="javascript:void(0);" id="unfav_icon_'.$i.'" onclick="send_fav_action('.$feed["share"]["id"].',0,'.$i.')" style="display:'.$unfav_display.'">
-							<span class="counter_'.$i.'">'.$feed["share"]["favorites_counter"].'</span> Unfavorite </a>';
-							/*<img src="'.$this->getUrl('css/img/un_fav_icon_12_10.png').'" style="float: none;"></a>' ;*/
-					   echo '<p>  | '.$feed["share"]["application"]["shares_counter"].'
-					   Shares</p>';
-					   	/*<img src="'.$this->getUrl("css/img/share_icon_13_10.png").'" style="float: none;"></p>';*/ 
-					   echo '<p> |'.$feed["share"]["comments_counter"].' </p> <a href="#">Comment</a>'; ?>
-				</div>
-				<a href="https://play.google.com/store/apps/details?id=<?php echo $feed["share"]["application"]["package_name"];?>" target="_blank">
-				<div class="notification_box_tl_detail_price" >
-					<?php $price = $feed["share"]["application"]["price"];
-						if($price){
-							echo '<p>'.$price.'</p>';
-						}
-						else{
-							echo '<p>FREE</p>';
-						}
-					?>					
-					<img src="<?php echo $this->getUrl('css/img/download_icon.png') ?>" />
-				</div>
-			</div>
-			</a>
-		
-		<?} ?>
-	<?}?>
+	
 </div>
 <div class="loading" id="loading" style="display:none">Wait a moment... it's loading!</div>
 <div class="loading" id="nomoreresults" style="display:none">Sorry, no more results for your pagination demo.</div>
