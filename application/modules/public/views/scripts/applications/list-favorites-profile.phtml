@@ -8,8 +8,12 @@
 			$app_data =$app["share"] ["application"];
 			//var_dump($app["share"] ["application"]);		
 ?>		
+			<?php if($app_data["package_name"]!= ""){?>
+					<a href="https://play.google.com/store/apps/details?id=<?php echo $app_data["package_name"]; ?>" target="_blank">
+				<?php }else{?>
+					<a href="https://play.google.com/store" target="_blank">
+				<?php }?>
 				<div class="app_box">
-					<!--<a href="<?php echo $this->getUrl( array('controller'=>'applications', 'action'=>'getData', 'shared_id'=> $app_data["shared_id"], 'package_name' =>$app_data["package_name"] )); ?>">--></a>
 						<div class="app_image">
 							<img src="<?php echo $app_data["icon"]; ?>" />
 						</div>
@@ -28,6 +32,7 @@
 							</div>-->
 						</div>
 				</div>
+			</a>
 <?php 	}
 		?>
 		</table>

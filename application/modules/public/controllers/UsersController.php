@@ -9,11 +9,22 @@ class UsersController extends MF_Controller{
 		if($auth->isLogged()){
 			$request = MF_Request::getInstance();
 			$args = $request->getParams();
-			$args['user'] = $request->getParam( 'id', 'me' );
+			$args['user'] = $request->getParam( 'id', 'me' );			
 			$user = MF_ApiCaller::call('User', 'getData', $args);
 			$this->view->response = $user;
-			$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
-			$this->view->get_timeline_response = $get_timeline_response ;
+			
+			$more_feeds = $request->getParam( 'more_feeds');
+			if($more_feeds=="true"){
+				$this->disablelayout();
+				$args['$to_id'] = "2";	
+				$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
+				$this->view->get_timeline_response = $get_timeline_response ;	
+			}
+			else{
+				$get_timeline_response = MF_ApiCaller::call('User', 'listTimeline',$args);
+				$this->view->get_timeline_response = $get_timeline_response ;				
+			}
+			
 		}
 		else{ 
 			$this->redirect( array('controller'=>'auth', 'action'=>'login') );

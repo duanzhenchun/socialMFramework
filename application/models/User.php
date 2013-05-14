@@ -21,7 +21,7 @@ class User extends MF_Model{
 		return 0;
 	}
 	
-	public function getFeeds( $from_id=false, $to_id=false, $only_own=false, $limit=20 ){
+	public function getFeeds( $from_id=false, $to_id=false, $only_own=false, $limit=10 ){
 		$auth = MF_Auth::getInstance();
 		$sql = "SELECT * FROM `feeds`";
 		$sql_condition = "WHERE ( `users_id`={$this->id} OR `mentioned_user_id`={$this->id} )";

@@ -4,18 +4,22 @@
 		$apps = $this->response["shares"];
 		foreach( $apps as $app){
 			$app_data =$app["application"];
-			//var_dump($app);		
+			//var_dump($app_data);		
 ?>		
-				<div class="app_box">
-					<a href="#">
+				<?php if($app_data["package_name"]!= ""){?>
+					<a href="https://play.google.com/store/apps/details?id=<?php echo $app_data["package_name"]; ?>" target="_blank">
+				<?php }else{?>
+					<a href="https://play.google.com/store" target="_blank">
+				<?php }?>
+				<div class="app_box">					
 						<div class="app_image">
 							<img src="<?php echo $app_data["icon"]; ?>">
 						</div>
 						<div class="app_title">
 							<?php echo $app_data["application_name"]; ?>
 						</div>
-					</a>
 				</div>
+				</a>
 <?php 	}		
 	} 
 	else{
